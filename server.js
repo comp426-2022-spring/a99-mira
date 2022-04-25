@@ -2,9 +2,18 @@ import minimist from 'minimist';
 import express from 'express';
 import fs from 'fs';
 import morgan from 'morgan';
-import {db} from './database.js';
+import Database from 'better-sqlite3'
+import {addUser, makedbs} from './modules/database.js';       //create databases
+import e from 'express';
+
 
 const app = express();
+const db = new Database('site.db')                  //set up database
+//create log database, because this is related to server going to leave it in here
+//only need to run once when changing the architecture of db, otherwise can stay commented out
+//const statments = 'CREATE TABLE accesslog (remoteadder, remoteuser, time, method, url, protocol, httpversion, status, refer, useragent)'
+//db.exec(statments)
+
 
 // Make Express use its own built-in body parser for both urlencoded and JSON body data.
 app.use(express.urlencoded({ extended: true }));
@@ -54,8 +63,8 @@ app.use((req, res, next) => {
         referer: req.headers['referer'],
         useragent: req.headers['user-agent']
     }
-    const stmt = db.prepare(`INSERT INTO accesslog (remoteaddr, remoteuser, time, 
-        method, url, protocol, httpversion, status, referer, useragent) 
+    const stmt = db.prepare(`INSERT INTO accesslog (remoteadder, remoteuser, time, 
+        method, url, protocol, httpversion, status, refer, useragent) 
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);`)
 
     const info = stmt.run(logdata.remoteaddr, logdata.remoteuser, logdata.time,
@@ -64,6 +73,13 @@ app.use((req, res, next) => {
         logdata.referer, logdata.useragent)
     next()
 
+})
+
+//middleware for creating databases, uncomment function if changes need to be made to database architecture
+//otherwise nothing happens
+app.use((req, res, next) =>{
+    //makedbs(db);          //uncomment this line if changing table architecture
+    next()
 })
 
 if(debug) {
@@ -105,13 +121,106 @@ app.get('/mhr/physical', (req, res) => {
 })
 
 app.get('/mhr/login', (req, res) => {
+
+
+
+    //********** frontend: 
+    //can you make a text box for username and password here with a submit button
+    // when the submit button is pressed create a variable "username" and "password" for me to pass to the db
+    // for now I'm going to hard code my name and a dummy password
+
+
+    let username = "Bronson"
+    let password = "123456"
+
+    //Database:
+    //this code checks the database for a username and password combo
+    //if the pair does not exist a false value is returned to doesExist variable 
+    //and the webpage prints that username or password are incorrect
+    //if the pair does exist a true value is returned to doesExist variable
+
+    let doesExist
+
+    const userCheck = db.prepare('SELECT * FROM users where username=? AND password=?').get(username, password)
+    if(userCheck == undefined){
+        res.message = 'Username or Password Incorrect'
+        doesExist = false
+    }
+    else{
+        doesExist = true
+        res.message = 'login page';
+    }
+
+
+
+
+
+
+    //********** backend:
+    //the function will return a true or false value depending on wheather the username and password and are in the db
+    //would you mind doing error handling for that?
+    //do you want any more information, uid possibly?
+
     // Respond with message "login page"
-    res.message = 'login page';
     res.end(res.message)
+
 })
 
 app.get('/mhr/signup', (req, res) => {
     // Respond with message "signup page"
-    res.message = 'signup page';
+    //res.message = 'signup page';
+    //res.end(res.message)
+
+
+    //********** frontend: 
+    //can you make a text box for username and password here with a submit button
+    // when the submit button is pressed create a variable "username" and "password" for me to pass to the db
+    // for now I'm going to hard code my name and a dummy password
+
+    let username = "Bronson"
+    let password = "1123456"
+
+
+    //Database:
+    //this code takes a username and password variable and checks if eiher are in the db already
+    //if they are it returns the message username or password already exist
+    //if they arent they are added to the db
+
+    //check to see if user already exists
+    const wasCreated
+    const userCheck = db.prepare('SELECT * FROM users where username=? OR password=?').get(username, password)
+    if(userCheck == undefined){
+        addUser(db, username, password)
+        res.message = 'signup page'
+        wasCreated = true
+    }
+    else{
+        res.message = 'Username or password already exists'
+        wasCreated = false
+    }
+
+    //test code for checking users are being added to the db
+    //const querry = db.prepare('SELECT * FROM users where username = ?').get(username)
+    //console.log(querry.username, querry.password, querry.id)
     res.end(res.message)
+    //res.status(200).json(info)   
+
+
+
+
+
+
+
+    //************Backend:
+    //The function will return a true or false value wasCreated depending on if either of the fields are blank
+    //would you guys mind doing error handling for that?
+
+
+
+
+
+
+
+
+
 })
