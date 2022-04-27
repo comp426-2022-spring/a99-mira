@@ -1,0 +1,88 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: black;
+  }
+  
+  * {
+    box-sizing: border-box;
+  }
+  
+  /* 8. Add style to divs with the "container" class */
+  .container {
+    /* 9. Add 15px padding */
+    padding: 15px;
+    /* 10. Make the background color of the container Carolina Blue using the hex code defined here: https://en.wikipedia.org/wiki/Carolina_blue*/
+    background-color: #4B9CD3;
+  }
+  
+  input[type=text], input[type=password] {
+    width: 100%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    display: inline-block;
+    border: none;
+    background: #f1f1f1;
+  }
+  
+  input[type=text]:focus, input[type=password]:focus {
+    background-color: #ddd;
+    outline: none;
+  }
+  
+  /* 11. Style only the h1 with id "register" */
+  h1 #register {
+    /* 12. Make the text BOLD */
+    font-weight: bold;
+    /* 13. Make the text color navy (look up the hex code for navy) */
+    color: #202A44;
+  }
+  
+  hr {
+    /* 14. Override default hr style with a 30-pixel bottom margin */
+    margin-bottom: 30px;
+    /* 15. Add a 2-pixel solid azure border (look up the hex code). */
+    border-style: solid;
+    border-width: 2px;
+    border-color: #008AD8;
+  }
+  
+  /* 16. Set a style for the submit button with "registerbtn" class */
+  .reegisterbtn {
+    /* 17. Set the background color to navy using the hex color */
+    background-color: #202A44;
+    /* 18. Set the text color to white using the hex color */  
+    color: #FFFFFF;
+    padding: 16px 20px;
+    margin: 8px 0;
+    /* 19. Set it to have no border */
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+  }
+  
+  .registerbtn:hover {
+    opacity: 1;
+  }
+  
+  a {
+    /* 20. Make link text color navy blue (look up the hex code) */
+    color: #202A44;
+    /* 21. Set the text-decoration to none for links */
+    text-decoration: none;
+  }
+  
+  /* 22. Set style for links using the :hover pseudoclass */
+  a:hover {
+    /* 23. Change the color of links to azure on mouseover */
+    color: #008AD8;
+    /* 24. Set the text-decoration to underline for links on mouseover */
+    text-decoration: underline;
+  }
+  
+  .signin {
+    background-color: #f1f1f1;
+    /* 25. Align the text for the section with class "signin" to be centered */
+    text-align: center;
+  }
+  

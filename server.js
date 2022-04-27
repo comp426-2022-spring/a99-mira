@@ -187,7 +187,7 @@ app.get('/mhr/signup', (req, res) => {
     //if they arent they are added to the db
 
     //check to see if user already exists
-    const wasCreated
+    const wasCreated =
     const userCheck = db.prepare('SELECT * FROM users where username=? OR password=?').get(username, password)
     if(userCheck == undefined){
         addUser(db, username, password)
