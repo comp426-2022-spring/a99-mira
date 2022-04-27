@@ -7,6 +7,35 @@ body {
     background-color: rgb(241, 231, 221);
 }
   
+
+
+button {
+    font: 20px Georgia, serif;  
+    background: none;
+    border: none;
+    border-radius: 20px;
+    padding: 10px;
+}
+button:hover {
+    background: rgb(225, 208, 191);
+}
+
+#homeButton {
+    font-size: 40px;
+    font-weight: bold;
+    border-radius: 30px;
+}
+
+.userButtons {
+    color: #FFFFFF;
+    background:rgb(175, 193, 172);
+}
+.userButtons:hover {
+    background: rgb(132, 152, 129);
+}
+
+
+
   * {
     box-sizing: border-box;
   }
