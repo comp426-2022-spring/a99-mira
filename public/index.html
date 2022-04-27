@@ -7,46 +7,73 @@
 </head>
 <body>
     <nav>
-        <button id="home" onclick="div('home')">MHR</button>
-        <button id="physical" onclick="div('physical')">Physical</button>
-        <button id="virtual" onclick="div('virtual')">Virtual</button>
-        <button id="login" onclick="div('login')">Log In</button>
-        <button id="signup" onclick="div('signup')">Sign Up</button>
-      </nav>
+        <button id="homeButton" onclick="div('home')">MHR</button>
+        <button id="physicalButton" onclick="div('physical')">Physical</button>
+        <button id="virtualButton" onclick="div('virtual')">Virtual</button>
+        <button id="loginButton" onclick="div('login')">Log In</button>
+        <button id="signupButton" onclick="div('signup')">Sign Up</button>
+    </nav>
 
-<form action="/app/register/">
-  <div class="container">
-    <!-- 3.  Add the ID "register" to the header on the next line -->
-    <h1 id="register">Register an account</h1>
-    <p>Please fill in this form to create an account.</p>
-    <hr>
+    <div id="home" class="hidden">
+        <h1>Mental Health Resources</h1>
+        <p> A collection of local and online resources for your mental health. Find resources in-person near you or virtual resources to be accessed at your convenience. </p>
+        <button id="physicalResourcesButton" onclick="div('physical')">Physical Resources</button>
+        <button id="virtualResourcesButton" onclick="div('virtual')">Virtual Resources</button>
+    </div>    
+
+    <div id="login" class="hidden">
+        <h1>Sign In</h1>
+        <form action="/app/register/">
+            <div class="container">
+              <!-- 3.  Add the ID "register" to the header on the next line -->
+              <h1 id="register">Register an account</h1>
+              <p>Please fill in this form to create an account.</p>
+              <hr>
+              
+              <!-- 4. Using the other form fields below as an example, create a new form field for a username. Give it a label also. -->
+              <label for="username"><b>Username</b></label>
+              <!-- 5. The name and ID of the input should be "username" -->
+              <input type="text" placeholder="Enter Username" name="username" id="username" required>
+              
+              
+              <label for="email"><b>Email</b></label>
+              <input type="text" placeholder="Enter Email" name="email" id="email" required>
+          
+              <label for="pass"><b>Password</b></label>
+              <input type="password" placeholder="Enter Password" name="pass" id="pass" required>
+          
+              <label for="pass-repeat"><b>Repeat Password</b></label>
+              <input type="password" placeholder="Repeat Password" name="pass-repeat" id="pass-repeat" required>
+              <hr>
+              <!-- 6. Change the link on the next line to lead to a (nonexistent) page called "/info/terms/" -->
+              <p>By creating an account you agree to our <a href="/info/terms">Terms & Privacy</a>.</p>
+          
+              <button type="submit" class="registerbtn">Register</button>
+            </div>
+            
+            <div class="container signin">
+              <!-- 7. Change the link on the next line to lead to a (nonexistent) page called "/app/login/" -->
+              <p>Already have an account? <a href="/app/login/">Sign in</a>.</p>
+            </div>
+          </form>
+    </div>   
     
-    <!-- 4. Using the other form fields below as an example, create a new form field for a username. Give it a label also. -->
-    <label for="username"><b>Username</b></label>
-    <!-- 5. The name and ID of the input should be "username" -->
-    <input type="text" placeholder="Enter Username" name="username" id="username" required>
-    
-    
-    <label for="email"><b>Email</b></label>
-    <input type="text" placeholder="Enter Email" name="email" id="email" required>
+    <div id="signin" class="hidden">
+        <h1>Sign Up</h1>
+        
+    </div> 
 
-    <label for="pass"><b>Password</b></label>
-    <input type="password" placeholder="Enter Password" name="pass" id="pass" required>
+    <div id="physical" class="hidden">
+        <h2>Find resources near you.</h2>
+        
+    </div> 
 
-    <label for="pass-repeat"><b>Repeat Password</b></label>
-    <input type="password" placeholder="Repeat Password" name="pass-repeat" id="pass-repeat" required>
-    <hr>
-    <!-- 6. Change the link on the next line to lead to a (nonexistent) page called "/info/terms/" -->
-    <p>By creating an account you agree to our <a href="/info/terms">Terms & Privacy</a>.</p>
+    <div id="virtual" class="hidden">
+        <h2>Find virtual resources.</h2>
+        
+    </div> 
 
-    <button type="submit" class="registerbtn">Register</button>
-  </div>
-  
-  <div class="container signin">
-    <!-- 7. Change the link on the next line to lead to a (nonexistent) page called "/app/login/" -->
-    <p>Already have an account? <a href="/app/login/">Sign in</a>.</p>
-  </div>
-</form>
+
 
 </body>
 </html>
