@@ -25,10 +25,11 @@ button:hover {
 #homeButton {
     font-size: 40px;
     font-weight: bold;
-    border-radius: 30px;
+    border-radius: 40px;
     margin-top: 20px;
     margin-left: none;
     float: left;
+    background: rgb(225, 208, 191);
 }
 
 .resourceButtons {
@@ -48,13 +49,25 @@ button:hover {
 .resourceButtonsColor {
     color: #FFFFFF;
     background:rgb(175, 193, 172);
+    margin-top: 30px;
 }
 .resourceButtonsColor:hover {
     background: rgb(132, 152, 129);
 }
 
+
+
+h1 {
+    font-size: 60px;
+    margin-left: 20px;
+}
+
+p {
+    margin-left: 20px;
+}
+
 #title {
-    margin-top: 100px;
+    margin-top: 110px;
 }
 
   * {
