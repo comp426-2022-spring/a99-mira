@@ -86,6 +86,7 @@ h1 {
 p {
     margin-left: 20px;
     font-family: 'Trebuchet MS', sans-serif;
+    font-size: 15px;
 }
 
 h2 {
@@ -94,8 +95,10 @@ h2 {
 }
 
 input {
+    font-family: 'Trebuchet MS', sans-serif;
+    font-size: 15px;
     text-align: center;
-    width: 50%;
+    width: 50;
     border-radius: 40px;
 }
 
