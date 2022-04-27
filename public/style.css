@@ -6,7 +6,8 @@ body {
     font-family: Georgia, serif;
     background-color: rgb(241, 231, 221);
     margin: 10px 60px;
-    background-image: url('assets/bkg.svg');
+    background-image: url('assets/bkg-01.svg');
+    background-size: 1280px;
 }
   
 
@@ -56,6 +57,15 @@ button:hover {
     background: rgb(132, 152, 129);
 }
 
+.submitButton {
+    color: #FFFFFF;
+    background:rgb(175, 193, 172);
+    margin-top: 30px;
+}
+.submitButton:hover {
+    background: rgb(132, 152, 129);
+}
+
 
 
 h1 {
@@ -63,13 +73,29 @@ h1 {
     margin-left: 20px;
 }
 
+#title {
+    margin-top: 110px;
+}
+
+.userHeader {
+    text-align: center;
+}
+
 p {
     margin-left: 20px;
     font-family: 'Trebuchet MS', sans-serif;
 }
 
-#title {
-    margin-top: 110px;
+h2 {
+    font-size: 40px;
+    text-align: center;
+}
+
+
+
+#map {
+    height: 300px;
+    width: 100%;
 }
 
   * {
