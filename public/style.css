@@ -93,6 +93,12 @@ h2 {
     text-align: center;
 }
 
+input {
+    text-align: center;
+    width: 50%;
+    border-radius: 40px;
+}
+
 
 
 #map {
