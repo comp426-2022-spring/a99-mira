@@ -15,6 +15,14 @@ node server.js [options]
 
 # Endpoints
 
+## /mhr/' (GET)
+#### Request cURL
+
+#### Response body
+
+#### Response headers
+
+
 ## /app/log/access/' (GET)
 #### Request cURL
 
