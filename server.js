@@ -175,7 +175,28 @@ app.post('app/auth/login', (req, res) => {
 })
 
 app.post('app/users/logout', (req, res) => {
+    //Use session to log ppl out
+})
+//PATCH METHODS
+app.patch('app/users/update', (req, res) => {
+    //For a certain username, process changes to password and email
+    
+    //Get username, password, and email values from front-end request
 
+    //Search for the record in database with username, then change password/email to new values
+
+    //Return a JSON containing {"status" : "success" } to frontend
+})
+
+//DELETE METHODS
+app.delete('app/users/delete', (req, res) => {
+    //For a certain username, delete that user's record & information from the database
+
+    //Get username value from front-end request
+
+    //Delete user from database
+
+    //If the delete is successful, use res.redirect to send the user back to the signup page
 })
 
     
