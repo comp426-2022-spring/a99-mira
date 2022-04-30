@@ -23,6 +23,8 @@ https://courageous-hedgehog-0ea.notion.site/Comp-426-Project-Page-68ed902f7af247
 
 ### Sign Up
 - Form with username, email, and password fields
+- Details logged in user database
 
 ### Log In
 - Form with username and password fields
+- Details logged in interaction database
