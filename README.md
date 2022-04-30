@@ -2,17 +2,8 @@
 
 Notion Project Page Link: https://courageous-hedgehog-0ea.notion.site/Comp-426-Project-Page-68ed902f7af2478ca0229a809bec7b1f 
 
-## UPDATE
-
-You don't need to accept this assignment since you are already assigned to teams. So, there is not assignment invite link for a99.
-
-## Summary 
-
-COMP426 final project template repository.
-All your code and documentation goes here.
-Change this text to be a brief description of your final project.
-Put the name of your project in the header above.
-You will change everything below to be the main technical documentation, as outlined below.
+## Mental Health Resources
+A collection of local and online resources for various mental health concerns. Includes location-based searches for in-person resources, as well as a list of several virtual tools.
 
 ## First steps
 
