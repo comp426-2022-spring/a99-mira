@@ -22,4 +22,13 @@ node server.js [options]
 
 #### Response headers
 
+
 ## /app/log/error/' (GET)
+#### Request cURL
+
+#### Response body
+
+#### Response headers
+
+
+
