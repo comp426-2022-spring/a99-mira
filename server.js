@@ -173,6 +173,10 @@ app.get('/mhr/login', (req, res) => {
     //res.end(res.message)
 
 })
+app.post('app/users/signUpRequest', (req, res) => {
+    //check to see that they have an account
+    //write code to mark that a user logged in
+})
 
 app.get('/mhr/signup', (req, res) => {
     // Respond with message "signup page"

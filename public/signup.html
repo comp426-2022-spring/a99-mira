@@ -10,11 +10,43 @@
         <h1 class="userHeader">Sign Up</h1>
         <form action="/mhr/signup/">
             <input type="text" placeholder="Username" name="username" id="usernameSignup" required>
-            <input type="text" placeholder="Email" name="email" id="email" required>
+            <!-- <input type="text" placeholder="Email" name="email" id="email" required> -->
             <input type="password" placeholder="Password" name="password" id="passwordSignup" required>
-            <button type="submit" class="submitButton">Register</button>
+            <button id="submitBtn" type="submit" class="submitButton">Register</button>
         </form>
         <a href="../login">Already have an account? Log in here</a>
     </div> 
+    <script>
+        const usernameInput = document.getElementById("usernameSignup")
+        const passwordInput = document.getElementById("passwordSignup")
+        const submitBtn = document.getElementById("submitBtn")
+
+        const baseURL = 'http://localhost:5555/????'
+
+        submitBtn.addEventListener('submit', submitSignUp)
+        //Function to check and see whether a username and password are already in the database
+        async function submitSignUp(e) {
+            e.preventDefault()
+            if (usernameInput.value == '') { return }
+            
+            const res = await fetch(baseURL + '????', {
+                method: 'POST',
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    username: usernameInput.value,
+                    password: passwordInput.value
+                })
+            })
+            console.log(res)
+            const data = await res.json()
+            //If the user already exists in the database
+            if (data.checkUser == "true") {
+                alert("You have already created an account, please go to the login page")
+            }
+            //If the user is new, then we need method to add them to the database
+            
+        }
+
+    </script>
 </body>
 </html>
