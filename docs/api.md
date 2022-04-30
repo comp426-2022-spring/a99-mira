@@ -12,6 +12,14 @@ node server.js [options]
                 Logs are always written to database.
 
     --help	Return this message and exit.
-    
+
 # Endpoints
 
+## /app/log/access/' (GET)
+Request cURL
+
+Response body
+
+Response headers
+
+## /app/log/error/' (GET)
