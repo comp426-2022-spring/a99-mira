@@ -16,3 +16,9 @@ A collection of local and online resources for various mental health concerns. I
 - Front end lead: Turner
 - Database lead: Bronson
 - Back end leads: Ram, Frank
+
+### Planning Notes
+
+
+### API Documentation
+https://github.com/comp426-2022-spring/a99-mira/blob/a841d377138edd1af1d474583fa7efc20311cf36/docs/api
