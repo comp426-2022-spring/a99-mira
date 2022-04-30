@@ -20,11 +20,14 @@ const db = new Database('site.db')                  //set up database
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+
 const args = minimist(process.argv.slice(2));
 const port = args.port || process.env.PORT || 5555;
 const debug = args.debug || false;
 const log = args.log || true;
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
+app.use(express.static(path.join(__dirname, '/public/')))
 
 console.log(args)
 //help message
@@ -99,6 +102,12 @@ if (log !== 'false') {
     const accesslog = fs.createWriteStream('access.log', { flags: 'a' })
     app.use(morgan('combined', { stream: accesslog }))
 }
+
+app.get('/style.css', (req, res) => {
+
+    res.sendFile(path.join(__dirname, "/public/style.css"));
+  
+});
 
 app.get("/", function (req, res) {
     return res.redirect('/mhr/signup/')

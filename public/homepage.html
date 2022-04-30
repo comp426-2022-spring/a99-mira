@@ -2,14 +2,15 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="style.css">
-<script src="script.js"></script> 
+<link rel="stylesheet" href="/style.css">
+<script src="/script.js"></script> 
 </head>
 <body>
     <nav>
         <button id="homeButton" onclick="div('home')">MHR</button>
         <button id="physicalButton" class="resourceButtons" onclick="div('physical')">Physical</button>
         <button id="virtualButton" class="resourceButtons" onclick="div('virtual')">Virtual</button>
+        <button id="accountButton" class="userButtons" onclick="div('account')">Account Info</button>
     </nav>
 
     <div id="home" class="active">
@@ -26,6 +27,10 @@
         <p><a href=""><span style="font-weight: bolder">Resource</span></a> Description</p>
         <p><a href=""><span style="font-weight: bolder">Resource</span></a> Description</p>
     </div> 
+
+    <div id="account" class="hidden">
+        <p>Bruh</p>
+    </div>
 
     <div id="physical" class="hidden">
         <h2>Find resources near you.</h2>
