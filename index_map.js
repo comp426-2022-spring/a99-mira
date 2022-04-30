@@ -37,4 +37,4 @@ function initMap() {
         })(marker, count));
       }
     }
-  }
+  
