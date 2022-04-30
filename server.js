@@ -3,10 +3,10 @@ import minimist from 'minimist';
 import express from 'express';
 import fs from 'fs';
 import morgan from 'morgan';
-import Database from 'better-sqlite3'
+import Database from 'better-sqlite3';
 import path from 'path';
+import session from 'express-session';
 import {addUser, makedbs} from './modules/database.js';       //create databases
-import e from 'express';
 
 //SERVER SETUP
 const app = express();
@@ -18,6 +18,11 @@ const db = new Database('site.db')                  //set up database
 // Make Express use its own built-in body parser for both urlencoded and JSON body data.
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+}));
 
 //Path to server directory & express.static setup
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
@@ -114,6 +119,14 @@ app.get("/", function (req, res) {
 });
 
 app.get('/mhr/', (req, res) => {
+    // if (req.session.loggedin) {
+	// 	// Output username
+	// 	//res.send({"rjson":'Welcome back, ' + req.session.username + '!'});
+	// } else {
+	// 	// Not logged in
+	// 	res.send('Please login to view this page!');
+    //     res.end()
+	// }
     res.sendFile(path.join(__dirname,'/public/homepage.html'))
 })
 
@@ -126,10 +139,11 @@ app.get('/mhr/signup', (req, res) => {
 })
 
 //POST ENDPOINTS
-app.post('app/users/signUpRequest', (req, res) => {
+app.post('/app/users/signUpRequest', (req, res) => {
+    //Get the new user's info from the front end request
     let username = req.body.username
     let password = req.body.password
-
+    let email = req.body.email
     //Database:
     //this code checks the database for a username and password combo
     //if the pair does not exist a false value is returned to doesExist variable 
@@ -153,10 +167,11 @@ app.post('app/users/signUpRequest', (req, res) => {
         return res.redirect('/mhr/signup')
     }
 })
-app.post('app/auth/login', (req, res) => {
+app.post('/app/auth/login', (req, res) => {
     let username = req.body.username;
     let password = req.body.password;
-
+    console.log(username)
+    console.log(password)
     if (username && password) {
     // this code takes a username and password variable and checks if eiher are in the db already
     // if they are it returns the message username or password already exist
@@ -164,21 +179,24 @@ app.post('app/auth/login', (req, res) => {
         const userCheck = db.prepare('SELECT * FROM users where username=? OR password=?').get(username, password)
         //If account doesn't exist
         if(userCheck == undefined){
-            res.send({"checkUser":"true"})
+            res.send({"checkUser":"false"})
 
         } else { //If it does exist
-            request.session.loggedin = true;
-			request.session.username = username;
-            res.redirect("./homepage")
+            req.session.loggedin = true;
+			req.session.username = username;
+            res.redirect('/mhr/')
         }
+    } else {
+        res.send({"response":'Please enter Username and Password'})
+        res.end()
     }
 })
 
-app.post('app/users/logout', (req, res) => {
+app.post('/app/users/logout', (req, res) => {
     //Use session to log ppl out
 })
 //PATCH METHODS
-app.patch('app/users/update', (req, res) => {
+app.patch('/app/users/update', (req, res) => {
     //For a certain username, process changes to password and email
     
     //Get username, password, and email values from front-end request
@@ -189,7 +207,7 @@ app.patch('app/users/update', (req, res) => {
 })
 
 //DELETE METHODS
-app.delete('app/users/delete', (req, res) => {
+app.delete('/app/users/delete', (req, res) => {
     //For a certain username, delete that user's record & information from the database
 
     //Get username value from front-end request

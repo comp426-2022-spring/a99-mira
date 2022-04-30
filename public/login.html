@@ -7,41 +7,41 @@
 </head>
 <body>
     <div id="login" class="active">
-        <h1 class="userHeader">Sign In</h1>
+        <h1 class="userHeader">Log In</h1>
         <form action="/mhr/login/">
             <input type="text" placeholder="Username" name="username" id="usernameLogin" required>
             <input type="password" placeholder="Password" name="password" id="passwordLogin" required>
-            <button type="submit" class="submitButton">Register</button>
+            <button type="submit" class="submitButton" id="submitBtn">Log In</button>
         </form>
         <a href="../mhr/">Go to homepage</a>
     </div>  
     <script>
-        const usernameInput = document.getElementById("usernameSignup")
-        const passwordInput = document.getElementById("passwordSignup")
         const submitBtn = document.getElementById("submitBtn")
 
-        const baseURL = 'http://localhost:5555/app/auth'
+        const baseURL = 'http://localhost:5555/app/auth/';
 
-        submitBtn.addEventListener('submit', submitLogIn)
+        submitBtn.addEventListener('click', submitLogIn)
         //Function to check and see whether a username and password are already in the database
         async function submitLogIn(e) {
+            let usernameInput = document.getElementById("usernameLogin").value
+            let passwordInput = document.getElementById("passwordLogin").value
+            console.log(usernameInput)
+            console.log(passwordInput)
             e.preventDefault()
-            if (usernameInput.value == '') { return }
             
-            const res = await fetch(baseURL + '????', {
+            const res = await fetch(baseURL + 'login', {
                 method: 'POST',
-                headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
-                    username: usernameInput.value,
-                    password: passwordInput.value
+                    username: usernameInput,
+                    password: passwordInput
                 })
             })
             console.log(res)
-            const data = await res.json()
-            //If the user already exists in the database
-            if (data.checkUser == "true") {
-                alert("Bruh")
-            }
+            // const data = await res.json()
+            //If the account does not exist in the database
+            // if (data.checkUser == "false") {
+            //     alert("An account does not exist with your username and password. Please visit the signup page to create one.")
+            // }
             //If the user is new, then we need method to add them to the database
             
         }
