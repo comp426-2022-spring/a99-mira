@@ -31,6 +31,22 @@ node server.js [options]
 #### Response headers
 
 
+## /mhr/physical/' (GET)
+#### Request cURL
+
+#### Response body
+
+#### Response headers
+
+
+## /mhr/login/' (GET)
+#### Request cURL
+
+#### Response body
+
+#### Response headers
+
+
 ## /app/log/access/' (GET)
 #### Request cURL
 
