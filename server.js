@@ -141,7 +141,6 @@ app.get('/mhr/login', (req, res) => {
     // when the submit button is pressed create a variable "username" and "password" for me to pass to the db
     // for now I'm going to hard code my name and a dummy password
 
-
     let username = "Bronson"
     let password = "123456"
 
@@ -164,6 +163,9 @@ app.get('/mhr/login', (req, res) => {
     }
 
 
+    if (doesExist == false){
+        return res.redirect('/mhr/signup')
+    }
     //********** backend:
     //the function will return a true or false value depending on wheather the username and password and are in the db
     //would you mind doing error handling for that?
