@@ -19,23 +19,9 @@ Other steps that you will need to take after your team has accepted the assignme
 9. Use **Pull requests** to propose changes and incorporate them into your code from various team members. 
 10. Use **Issues** to identify and track bugs and also to communicate about various aspects of the project.
 
-## Team mangement
+## Team Roles
 
-Plan to meet with your team ASAP.
-Talk through identifying roles within your team.
-
-Try to figure out what each of you are good at/enjoy doing and try to work out roles that incorporate that.
-
-Some basic roles you will want to consider:
-
-1. A review manager - someone to review pull requests and merge or reject them and manage the related discussions
-2. A plan manager - someone to keep an eye on the overall plan and keep the project tab/to-do list up to date
-3. A documentation manager - someone to keep the documentation in order and identify what is missing and needs to be documented
-4. A release manager - someone to manage the packaging and release process for your prototype package
-5. A project manager - someone keeping track of all the moving parts and make sure that everything that needs to happen is happening.
-5. Roles for team members to take charge or different parts of the project. Possible roles:
-    1. Front end lead
-    2. Back end lead
-    3. Database lead
-    4. Design lead
-    5. Etc.
+- Design lead: Liya
+- Front end lead: Turner
+- Database lead: Bronson
+- Back end leads: Ram, Frankt
