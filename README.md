@@ -11,7 +11,7 @@ A collection of local and online resources for various mental health concerns. I
 - Back end leads: Ram, Frank
 
 ## Planning Notes
-https://github.com/comp426-2022-spring/a99-mira/blob/main/docs/planning
+https://github.com/comp426-2022-spring/a99-mira/blob/main/docs/planning.md
 
 ## API Documentation
-https://github.com/comp426-2022-spring/a99-mira/blob/main/docs/api
+https://github.com/comp426-2022-spring/a99-mira/blob/main/docs/api.md
