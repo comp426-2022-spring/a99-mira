@@ -153,7 +153,6 @@ app.get('/mhr/login', (req, res) => {
     if (doesExist == false){
         return res.redirect('/mhr/signup')
     }
-
     //********** backend:
     //the function will return a true or false value depending on wheather the username and password and are in the db
     //would you mind doing error handling for that?
