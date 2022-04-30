@@ -118,6 +118,14 @@ input:focus {
     width: 100%;
 }
 
+ 
+a {
+/* 20. Make link text color navy blue (look up the hex code) */
+color: #000000;
+/* 21. Set the text-decoration to none for links */
+text-decoration: none;
+}
+
 /* 22. Set style for links using the :hover pseudoclass */
 a:hover {
 /* 23. Change the color of links to azure on mouseover */
