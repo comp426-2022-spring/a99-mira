@@ -24,4 +24,4 @@ Other steps that you will need to take after your team has accepted the assignme
 - Design lead: Liya
 - Front end lead: Turner
 - Database lead: Bronson
-- Back end leads: Ram, Frankt
+- Back end leads: Ram, Frank
