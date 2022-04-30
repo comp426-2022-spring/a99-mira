@@ -1,8 +1,8 @@
-# a99 Final Project
+# Mental Health Resources
 
 Notion Project Page Link: https://courageous-hedgehog-0ea.notion.site/Comp-426-Project-Page-68ed902f7af2478ca0229a809bec7b1f 
 
-## Mental Health Resources
+## Summary
 A collection of local and online resources for various mental health concerns. Includes location-based searches for in-person resources, as well as a list of several virtual tools.
 
 ## First steps
