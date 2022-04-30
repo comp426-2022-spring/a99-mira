@@ -1,3 +1,4 @@
+//IMPORT STATEMENTS
 import minimist from 'minimist';
 import express from 'express';
 import fs from 'fs';
@@ -7,30 +8,30 @@ import path from 'path';
 import {addUser, makedbs} from './modules/database.js';       //create databases
 import e from 'express';
 
-
+//SERVER SETUP
 const app = express();
 const db = new Database('site.db')                  //set up database
 //create log database, because this is related to server going to leave it in here
 //only need to run once when changing the architecture of db, otherwise can stay commented out
 //const statments = 'CREATE TABLE accesslog (remoteadder, remoteuser, time, method, url, protocol, httpversion, status, refer, useragent)'
 //db.exec(statments)
-
-
 // Make Express use its own built-in body parser for both urlencoded and JSON body data.
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+//Path to server directory & express.static setup
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+//console.log(dirname)
+app.use(express.static(path.join(__dirname, '/public/')))
 
+//Process command line arguments
 const args = minimist(process.argv.slice(2));
 const port = args.port || process.env.PORT || 5555;
 const debug = args.debug || false;
 const log = args.log || true;
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
+//console.log(args)
 
-app.use(express.static(path.join(__dirname, '/public/')))
-
-console.log(args)
-//help message
+//HELP MESSAGE
 if (args.help || args.h) {
     console.log(`
     server.js [options]
@@ -50,6 +51,7 @@ if (args.help || args.h) {
     process.exit(0)
 }
 
+//START SERVER
 const server = app.listen(port, () => {
     console.log('App is running on port %PORT%'.replace('%PORT%', port));
 })
@@ -102,11 +104,9 @@ if (log !== 'false') {
     const accesslog = fs.createWriteStream('access.log', { flags: 'a' })
     app.use(morgan('combined', { stream: accesslog }))
 }
-
+//GET ENDPOINTS
 app.get('/style.css', (req, res) => {
-
     res.sendFile(path.join(__dirname, "/public/style.css"));
-  
 });
 
 app.get("/", function (req, res) {
@@ -114,35 +114,21 @@ app.get("/", function (req, res) {
 });
 
 app.get('/mhr/', (req, res) => {
-    // Respond with message "Main Page"
-    //res.message = 'Main Page';
     res.sendFile(path.join(__dirname,'/public/homepage.html'))
-    //res.end(res.message)
-})
-
-app.get('/mhr/virtual', (req, res) => {
-    // Respond with message "Virtual Resource Page"
-    res.message = 'Virtual Resource Page';
-    res.end(res.message)
-})
-
-app.get('/mhr/physical', (req, res) => {
-    // Respond with message "Physical Resource Page"
-    res.message = 'Physical Resource Page';
-    res.end(res.message)
 })
 
 app.get('/mhr/login', (req, res) => {
-
-
     res.sendFile(path.join(__dirname,'/public/login.html'))
-    //********** frontend: 
-    //can you make a text box for username and password here with a submit button
-    // when the submit button is pressed create a variable "username" and "password" for me to pass to the db
-    // for now I'm going to hard code my name and a dummy password
+})
 
-    let username = "Bronson"
-    let password = "123456"
+app.get('/mhr/signup', (req, res) => {
+    res.sendFile(path.join(__dirname,'/public/signup.html'))
+})
+
+//POST ENDPOINTS
+app.post('app/users/signUpRequest', (req, res) => {
+    let username = req.body.username
+    let password = req.body.password
 
     //Database:
     //this code checks the database for a username and password combo
@@ -166,77 +152,30 @@ app.get('/mhr/login', (req, res) => {
     if (doesExist == false){
         return res.redirect('/mhr/signup')
     }
-    //********** backend:
-    //the function will return a true or false value depending on wheather the username and password and are in the db
-    //would you mind doing error handling for that?
-    //do you want any more information, uid possibly?
+})
+app.post('app/auth/login', (req, res) => {
+    let username = req.body.username;
+    let password = req.body.password;
 
-    // Respond with message "login page"
-    //res.end(res.message)
+    if (username && password) {
+    // this code takes a username and password variable and checks if eiher are in the db already
+    // if they are it returns the message username or password already exist
+    // if they arent they are added to the db check to see if user already exists
+        const userCheck = db.prepare('SELECT * FROM users where username=? OR password=?').get(username, password)
+        //If account doesn't exist
+        if(userCheck == undefined){
+            res.send({"checkUser":"true"})
+
+        } else { //If it does exist
+            request.session.loggedin = true;
+			request.session.username = username;
+            res.redirect("./homepage")
+        }
+    }
+})
+
+app.post('app/users/logout', (req, res) => {
 
 })
-app.post('app/users/signUpRequest', (req, res) => {
-    //check to see that they have an account
-    //write code to mark that a user logged in
-})
 
-app.get('/mhr/signup', (req, res) => {
-    // Respond with message "signup page"
-    //res.message = 'signup page';
-    //res.end(res.message)
-
-    res.sendFile(path.join(__dirname,'/public/signup.html'))
-
-
-    //********** frontend: 
-    //can you make a text box for username and password here with a submit button
-    // when the submit button is pressed create a variable "username" and "password" for me to pass to the db
-    // for now I'm going to hard code my name and a dummy password
-
-    //let username = "Bronson"
-    //let password = "1123456"
-
-
-    //Database:
-    //this code takes a username and password variable and checks if eiher are in the db already
-    //if they are it returns the message username or password already exist
-    //if they arent they are added to the db
-
-    //check to see if user already exists
-    //const wasCreated = false
-    //const userCheck = db.prepare('SELECT * FROM users where username=? OR password=?').get(username, password)
-    // if(userCheck == undefined){
-    //     addUser(db, username, password)
-    //     res.message = 'signup page'
-    //     wasCreated = true
-    // }
-    // else{
-    //     res.message = 'Username or password already exists'
-    //     wasCreated = false
-    // }
-
-    //test code for checking users are being added to the db
-    //const querry = db.prepare('SELECT * FROM users where username = ?').get(username)
-    //console.log(querry.username, querry.password, querry.id)
-    //res.end(res.message)
-    //res.status(200).json(info)   
-
-
-
-
-
-
-
-    //************Backend:
-    //The function will return a true or false value wasCreated depending on if either of the fields are blank
-    //would you guys mind doing error handling for that?
-
-
-
-
-
-
-
-
-
-})
+    
