@@ -52,19 +52,36 @@
 
     <script>
     function initMap() {
-        var dumbo = {lat: 35.9132, lng:-79.0558};
+        var chapelhill = {lat: 35.9132, lng:-79.0558};
         var mapOptions = {
-            center: dumbo,
+            center: chapelhill,
             zoom: 10
         };
-        var googlemap = new google.maps.Map(document.getElementById("map"), mapOptions);
-    }
     var googlemap = new google.maps.Map(document.getElementById("map"), mapOptions);
-            var marker = new google.maps.Marker({
-                position: siliconValley,
-                map: googlemap
-            });
+    //var marker = new google.maps.Marker({
+      //  position: {lat: 35.9132, lng:-79.0558},
+        //map: googlemap
+    //});}
+    function addMarker(coordinates) {
+    var marker = new google.maps.Marker({
+      position: coordinates, // Passing the coordinates
+      map:googlemap, //Map that we need to add
+      draggarble: false// If set to true you can drag the marker
+   });
+}
+    addMarker({lat: 35.9132, lng: -79.0558}); // Brooklyn Coordinates
+    addMarker({lat: 40.7831, lng: -73.9712}); // Manhattan Coordinates
+    }
     </script>
+
+<style>
+    #map{
+        width: 100%;
+        height: 400px;
+        background-color: rgb(10, 9, 9);
+      }
+    
+</style>
 
 
     <div id="virtual" class="hidden">
