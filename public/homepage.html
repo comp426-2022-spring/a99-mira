@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="style.css">
+<script src="script.js"></script> 
+</head>
+<body>
+    <nav>
+        <button id="homeButton" onclick="div('home')">MHR</button>
+        <button id="physicalButton" class="resourceButtons" onclick="div('physical')">Physical</button>
+        <button id="virtualButton" class="resourceButtons" onclick="div('virtual')">Virtual</button>
+    </nav>
+
+    <div id="home" class="active">
+        <h1 id="title">Mental Health Resources.</h1>
+        <p>A collection of local and online resources for your mental health.</p>
+        <p>Find support in-person near you or through virtual tools to be accessed at your convenience.</p>
+        <button id="physicalResourcesButton" class="resourceButtonsColor" onclick="div('physical')">Physical Resources</button>
+        <button id="virtualResourcesButton" class="resourceButtonsColor" onclick="div('virtual')">Virtual Resources</button>
+    </div>     
+
+    <div id="virtual" class="hidden">
+        <h2>Find resources online.</h2>
+        <p><a href="https://www.nami.org/"><span style="font-weight: bolder">National Alliance on Mental Illness</span></a> The nation's largest grassroots mental health organization dedicated to building better lives for the millions of Americans affected by mental illness. </p>
+        <p><a href=""><span style="font-weight: bolder">Resource</span></a> Description</p>
+        <p><a href=""><span style="font-weight: bolder">Resource</span></a> Description</p>
+    </div> 
+
+    <div id="physical" class="hidden">
+        <h2>Find resources near you.</h2>
+        <!-- <div id="map"></div> -->
+        <div id="map"></div>
+
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAL2MTuyZzBp34soOmuAyP2N9mIMtxxIGU&callback=initMap">
+    </script>
+
+    <script>
+    function initMap() {
+        var chapelhill = {lat: 35.9132, lng:-79.0558};
+        var mapOptions = {
+            center: chapelhill,
+            zoom: 10
+        };
+    var googlemap = new google.maps.Map(document.getElementById("map"), mapOptions);
+    //var marker = new google.maps.Marker({
+      //  position: {lat: 35.9132, lng:-79.0558},
+        //map: googlemap
+    //});}
+    function addMarker(coordinates) {
+    var marker = new google.maps.Marker({
+      position: coordinates, // Passing the coordinates
+      map:googlemap, //Map that we need to add
+      draggarble: false// If set to true you can drag the marker
+   });
+}
+    addMarker({lat: 35.9132, lng: -79.0558}); // Brooklyn Coordinates
+    addMarker({lat: 40.7831, lng: -73.9712}); // Manhattan Coordinates
+    }
+    </script>
+
+<style>
+    #map{
+        width: 100%;
+        height: 400px;
+        background-color: rgb(10, 9, 9);
+      }
+    
+</style>
+
+
+
+</body>
+</html>
