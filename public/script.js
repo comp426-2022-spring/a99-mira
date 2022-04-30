@@ -8,13 +8,3 @@ function div(name) { // set active div on click
 
     document.getElementById(name).setAttribute("class", "active") // show clicked div
 }
-
-function submitSignIn() {
-    var username = document.getElementById("username")
-    var password = document.getElementById("password")
-
-}
-
-function submitSignUp() {
-
-}

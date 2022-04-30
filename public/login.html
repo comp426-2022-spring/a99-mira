@@ -14,6 +14,37 @@
             <button type="submit" class="submitButton">Register</button>
         </form>
         <a href="../mhr/">Go to homepage</a>
-    </div>   
+    </div>  
+    <script>
+        const usernameInput = document.getElementById("usernameSignup")
+        const passwordInput = document.getElementById("passwordSignup")
+        const submitBtn = document.getElementById("submitBtn")
+
+        const baseURL = 'http://localhost:5555/app/auth'
+
+        submitBtn.addEventListener('submit', submitLogIn)
+        //Function to check and see whether a username and password are already in the database
+        async function submitLogIn(e) {
+            e.preventDefault()
+            if (usernameInput.value == '') { return }
+            
+            const res = await fetch(baseURL + '????', {
+                method: 'POST',
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    username: usernameInput.value,
+                    password: passwordInput.value
+                })
+            })
+            console.log(res)
+            const data = await res.json()
+            //If the user already exists in the database
+            if (data.checkUser == "true") {
+                alert("Bruh")
+            }
+            //If the user is new, then we need method to add them to the database
+            
+        }
+    </script> 
 </body>
 </html>
