@@ -3,6 +3,7 @@ import express from 'express';
 import fs from 'fs';
 import morgan from 'morgan';
 import Database from 'better-sqlite3'
+import path from 'path';
 import {addUser, makedbs} from './modules/database.js';       //create databases
 import e from 'express';
 
@@ -18,6 +19,7 @@ const db = new Database('site.db')                  //set up database
 // Make Express use its own built-in body parser for both urlencoded and JSON body data.
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static('./public'));
 
 const args = minimist(process.argv.slice(2));
 const port = args.port || process.env.PORT || 5555;
@@ -99,7 +101,7 @@ if (log !== 'false') {
 }
 
 app.get("/", function (req, res) {
-    res.sendFile(__dirname + "/index.html");
+    res.sendFile('index1.html', { root: path.join(__dirname, '../public') });
 });
 
 app.get('/mhr/', (req, res) => {
@@ -187,7 +189,7 @@ app.get('/mhr/signup', (req, res) => {
     //if they arent they are added to the db
 
     //check to see if user already exists
-    const wasCreated =
+    const wasCreated = false
     const userCheck = db.prepare('SELECT * FROM users where username=? OR password=?').get(username, password)
     if(userCheck == undefined){
         addUser(db, username, password)
