@@ -2,16 +2,15 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="style.css">
-<script src="script.js"></script> 
+<link rel="stylesheet" href="/style.css">
+<script src="/script.js"></script> 
 </head>
 <body>
     <nav>
         <button id="homeButton" onclick="div('home')">MHR</button>
         <button id="physicalButton" class="resourceButtons" onclick="div('physical')">Physical</button>
         <button id="virtualButton" class="resourceButtons" onclick="div('virtual')">Virtual</button>
-        <button id="loginButton" class="userButtons" onclick="div('login')">Log In</button>
-        <button id="signupButton" class="userButtons" onclick="div('signup')">Sign Up</button>
+        <button id="accountButton" class="userButtons" onclick="div('account')">Account Info</button>
     </nav>
 
     <div id="home" class="active">
@@ -20,26 +19,18 @@
         <p>Find support in-person near you or through virtual tools to be accessed at your convenience.</p>
         <button id="physicalResourcesButton" class="resourceButtonsColor" onclick="div('physical')">Physical Resources</button>
         <button id="virtualResourcesButton" class="resourceButtonsColor" onclick="div('virtual')">Virtual Resources</button>
-    </div>    
+    </div>     
 
-    <div id="login" class="hidden">
-        <h1 class="userHeader"> In</h1>
-        <form action="/mhr/login/">
-            <input type="text" placeholder="Username" name="username" id="usernameLogin" required>
-            <input type="password" placeholder="Password" name="password" id="passwordLogin" required>
-            <button type="submit" class="submitButton">Login</button>
-          </form>
-    </div>   
-    
-    <div id="signup" class="hidden">
-        <h1 class="userHeader">Sign Up</h1>
-        <form action="/mhr/signup/">
-            <input type="text" placeholder="Username" name="username" id="usernameSignup" required>
-            <input type="text" placeholder="Email" name="email" id="email" required>
-            <input type="password" placeholder="Password" name="password" id="passwordSignup" required>
-            <button type="submit" class="submitButton">Register</button>
-          </form>
+    <div id="virtual" class="hidden">
+        <h2>Find resources online.</h2>
+        <p><a href="https://www.nami.org/"><span style="font-weight: bolder">National Alliance on Mental Illness</span></a> The nation's largest grassroots mental health organization dedicated to building better lives for the millions of Americans affected by mental illness. </p>
+        <p><a href=""><span style="font-weight: bolder">Resource</span></a> Description</p>
+        <p><a href=""><span style="font-weight: bolder">Resource</span></a> Description</p>
     </div> 
+
+    <div id="account" class="hidden">
+        <p>Bruh</p>
+    </div>
 
     <div id="physical" class="hidden">
         <h2>Find resources near you.</h2>
@@ -82,14 +73,6 @@
       }
     
 </style>
-
-
-    <div id="virtual" class="hidden">
-        <h2>Find resources online.</h2>
-        <p><a href=""><span style="font-weight: bolder">Resource</span></a> Description</p>
-        <p><a href=""><span style="font-weight: bolder">Resource</span></a> Description</p>
-        <p><a href=""><span style="font-weight: bolder">Resource</span></a> Description</p>
-    </div> 
 
 
 

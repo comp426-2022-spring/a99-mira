@@ -19,12 +19,15 @@ const db = new Database('site.db')                  //set up database
 // Make Express use its own built-in body parser for both urlencoded and JSON body data.
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static('./public'));
+
 
 const args = minimist(process.argv.slice(2));
 const port = args.port || process.env.PORT || 5555;
 const debug = args.debug || false;
 const log = args.log || true;
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
+app.use(express.static(path.join(__dirname, '/public/')))
 
 console.log(args)
 //help message
@@ -100,14 +103,21 @@ if (log !== 'false') {
     app.use(morgan('combined', { stream: accesslog }))
 }
 
+app.get('/style.css', (req, res) => {
+
+    res.sendFile(path.join(__dirname, "/public/style.css"));
+  
+});
+
 app.get("/", function (req, res) {
-    res.sendFile('index1.html', { root: path.join(__dirname, '../public') });
+    return res.redirect('/mhr/signup/')
 });
 
 app.get('/mhr/', (req, res) => {
     // Respond with message "Main Page"
-    res.message = 'Main Page';
-    res.end(res.message)
+    //res.message = 'Main Page';
+    res.sendFile(path.join(__dirname,'/public/homepage.html'))
+    //res.end(res.message)
 })
 
 app.get('/mhr/virtual', (req, res) => {
@@ -123,6 +133,12 @@ app.get('/mhr/physical', (req, res) => {
 })
 
 app.get('/mhr/login', (req, res) => {
+<<<<<<< HEAD
+=======
+
+
+    res.sendFile(path.join(__dirname,'/public/login.html'))
+>>>>>>> dc22de7c6ff06803efd4fd145a9a30b7ec68220d
     //********** frontend: 
     //can you make a text box for username and password here with a submit button
     // when the submit button is pressed create a variable "username" and "password" for me to pass to the db
@@ -159,7 +175,7 @@ app.get('/mhr/login', (req, res) => {
     //do you want any more information, uid possibly?
 
     // Respond with message "login page"
-    res.end(res.message)
+    //res.end(res.message)
 
 })
 
@@ -168,14 +184,16 @@ app.get('/mhr/signup', (req, res) => {
     //res.message = 'signup page';
     //res.end(res.message)
 
+    res.sendFile(path.join(__dirname,'/public/signup.html'))
+
 
     //********** frontend: 
     //can you make a text box for username and password here with a submit button
     // when the submit button is pressed create a variable "username" and "password" for me to pass to the db
     // for now I'm going to hard code my name and a dummy password
 
-    let username = "Bronson"
-    let password = "1123456"
+    //let username = "Bronson"
+    //let password = "1123456"
 
 
     //Database:
@@ -184,22 +202,22 @@ app.get('/mhr/signup', (req, res) => {
     //if they arent they are added to the db
 
     //check to see if user already exists
-    const wasCreated = false
-    const userCheck = db.prepare('SELECT * FROM users where username=? OR password=?').get(username, password)
-    if(userCheck == undefined){
-        addUser(db, username, password)
-        res.message = 'signup page'
-        wasCreated = true
-    }
-    else{
-        res.message = 'Username or password already exists'
-        wasCreated = false
-    }
+    //const wasCreated = false
+    //const userCheck = db.prepare('SELECT * FROM users where username=? OR password=?').get(username, password)
+    // if(userCheck == undefined){
+    //     addUser(db, username, password)
+    //     res.message = 'signup page'
+    //     wasCreated = true
+    // }
+    // else{
+    //     res.message = 'Username or password already exists'
+    //     wasCreated = false
+    // }
 
     //test code for checking users are being added to the db
     //const querry = db.prepare('SELECT * FROM users where username = ?').get(username)
     //console.log(querry.username, querry.password, querry.id)
-    res.end(res.message)
+    //res.end(res.message)
     //res.status(200).json(info)   
 
 
