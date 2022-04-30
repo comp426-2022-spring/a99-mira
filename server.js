@@ -123,14 +123,10 @@ app.get('/mhr/physical', (req, res) => {
 })
 
 app.get('/mhr/login', (req, res) => {
-
-
-
     //********** frontend: 
     //can you make a text box for username and password here with a submit button
     // when the submit button is pressed create a variable "username" and "password" for me to pass to the db
     // for now I'm going to hard code my name and a dummy password
-
 
     let username = "Bronson"
     let password = "123456"
@@ -153,6 +149,10 @@ app.get('/mhr/login', (req, res) => {
         res.message = 'login page';
     }
 
+
+    if (doesExist == false){
+        return res.redirect('/mhr/signup')
+    }
 
     //********** backend:
     //the function will return a true or false value depending on wheather the username and password and are in the db
