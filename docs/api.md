@@ -15,7 +15,7 @@ node server.js [options]
 
 # Endpoints
 
-## /mhr/' (GET)
+## /mhr/ (GET)
 #### Request cURL
 
 #### Response body
@@ -23,7 +23,7 @@ node server.js [options]
 #### Response headers
 
 
-## /mhr/virtual/' (GET)
+## /mhr/virtual/ (GET)
 #### Request cURL
 
 #### Response body
@@ -31,7 +31,7 @@ node server.js [options]
 #### Response headers
 
 
-## /mhr/physical/' (GET)
+## /mhr/physical/ (GET)
 #### Request cURL
 
 #### Response body
@@ -39,7 +39,7 @@ node server.js [options]
 #### Response headers
 
 
-## /mhr/login/' (GET)
+## /mhr/login/ (GET)
 #### Request cURL
 
 #### Response body
@@ -47,7 +47,7 @@ node server.js [options]
 #### Response headers
 
 
-## /mhr/signup/' (GET)
+## /mhr/signup/ (GET)
 #### Request cURL
 
 #### Response body
@@ -55,7 +55,7 @@ node server.js [options]
 #### Response headers
 
 
-## /app/log/access/' (GET)
+## /app/log/access/ (GET)
 #### Request cURL
 
 #### Response body
@@ -63,7 +63,7 @@ node server.js [options]
 #### Response headers
 
 
-## /app/log/error/' (GET)
+## /app/log/error/ (GET)
 #### Request cURL
 
 #### Response body
