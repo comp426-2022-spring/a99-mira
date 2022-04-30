@@ -16,6 +16,12 @@ https://github.com/comp426-2022-spring/a99-mira/blob/main/docs/planning.md
 ## API Documentation
 https://github.com/comp426-2022-spring/a99-mira/blob/main/docs/api.md
 
+## Installation
+Run `npm install` inside the package root directory.
+
+This package was buid using Node.js LTS (16.x).
+Other package dependency and version information can be found in `package.json`.
+
 ## Runtime Documentation
 node server.js [options]
     --port	Set the port number for the server to listen on. Must be an integer
