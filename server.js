@@ -6,7 +6,7 @@ import morgan from 'morgan';
 import Database from 'better-sqlite3';
 import path from 'path';
 import session from 'express-session';
-import {addUser, checkCreds, deleteUser, makedbs} from './modules/database.js';       //create databases
+import {addUser, checkCreds, deleteUser, makedbs, updateUser} from './modules/database.js';       //create databases
 import APIError from './error/APIError.js';
 import apiErrorHandler from './error/api-error-handler.js';
 //SERVER SETUP
@@ -60,6 +60,7 @@ if (args.help || args.h) {
 }
 
 //START SERVER
+
 const server = app.listen(port, () => {
     console.log('App is running on port %PORT%'.replace('%PORT%', port));
 })
@@ -142,7 +143,13 @@ app.get('/mhr/signup', (req, res) => {
 
 app.get('/app/users/info', (req, res) => {
     let username = req.session.username
-    const userInfoQuery = db.prepare('SELECT * FROM users where username=?').get(username, password, email)
+    console.log("entered endpoint")
+    console.log(username)
+    const userInfoQuery = db.prepare('SELECT * FROM users WHERE username=?').get(username)
+    console.log(userInfoQuery)
+    //console.log(userInfoQuery.password)
+    //console.log('bruh')
+    res.send({"username":userInfoQuery.username,"password":userInfoQuery.password,"email":userInfoQuery.email})
 
 })
 
@@ -153,7 +160,7 @@ app.post('/app/users/signUpRequest', (req, res, next) => {
     let password = req.body.password
     let email = req.body.email
     if(username === "" || password === "" || email === ""){
-        next(APIError.Invalidrequest('Black fields'));
+        next(APIError.Invalidrequest('Blank fields'));
         return;
     }
     console.log('entered endpoint')
@@ -230,8 +237,11 @@ app.patch('/app/users/update', (req, res) => {
     //For a certain username, process changes to password and email
     //Get username, password, and email values from front-end request
     let username = req.session.username;
-    let password = req.body.password;
-    let email = req.body.email;
+    let password = req.body.newPassword;
+    let email = req.body.newEmail;
+    console.log(username)
+    console.log(password)
+    console.log(email)
     if(username === "" || password === "" || email === ""){
         next(APIError.Invalidrequest('Blank fields'));
         return;
@@ -252,15 +262,14 @@ app.delete('/app/users/delete', (req, res) => {
     //For a certain username, delete that user's record & information from the database
 
     //Get username value from front-end request
-
+    let username = req.session.username
     //Delete user from database
-
-
-    let testDel = deleteUser(db, "bgatts")
+    let testDel = deleteUser(db, username)
 
     if (testDel.changes > 0){
         //this means succcess
         console.log("he gone")
+        return res.redirect("/mhr/signup")
     }
 
 

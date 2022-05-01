@@ -2,8 +2,8 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="style.css">
-<script src="script.js"></script> 
+<link rel="stylesheet" href="/style.css">
+<script src="/script.js"></script> 
 </head>
 <body>
     <nav>
@@ -43,12 +43,48 @@
         <button id="deleteActBtn">Delete Account :(</button>
     </div>
     <script>
+        //DELETE ACCOUNT
+        const deleteBtn = document.getElementById("deleteActBtn")
+        deleteBtn.addEventListener('click',deleteUser)
+        async function deleteUser() {
+            const bruhRes = await fetch('http://localhost:5555/app/users/delete', {
+                method: 'DELETE'
+            })
+            if (bruhRes.redirected==true) {
+                alert("Account deletion successful, we're sorry to see you go :(")
+                window.location.href=bruhRes.url
+            } else {
+                alert("delete unsuccessful, oops")
+            }
+
+        }
+
+        //FETCH ACCOUNT INFO
+        async function getUserInfo() {
+        const actRes = await fetch('http://localhost:5555/app/users/info', {
+            method: 'GET',
+            headers: {
+                accept: 'application/json'
+            },
+        })
+          
+        const resJson = await actRes.json()
+        console.log(actRes)
+        console.log(resJson)
+        console.log(resJson.username)
+
+        document.getElementById("actUser").innerHTML = resJson.username
+        document.getElementById("actEmail").innerHTML = resJson.email
+        document.getElementById("actPass").innerHTML = resJson.password
+        } 
+        getUserInfo()
+
+        //LOGOUT
         const logoutBtn = document.getElementById("logoutBtn")
         logoutBtn.addEventListener('click', processLogout)
-
         async function processLogout(e) {
             e.preventDefault()
-            const res = await fetch('https://localhost:5555/app/users/logout', {
+            const res = await fetch('http://localhost:5555/app/users/logout', {
                 method: 'GET',
                 headers: {
                     accept: 'application/json',
@@ -73,7 +109,7 @@
     <script>
         const submitChangeBtn = document.getElementById("submitChangeBtn")
         submitChangeBtn.addEventListener("submit", submitChange)
-        const baseURL = "https://localhost:5555/app/users/"
+        const baseURL = "http://localhost:5555/app/users/"
         
 
         async function submitChange(e) {
@@ -82,8 +118,7 @@
             let passwordInput = document.getElementById("changePassword").value
 
             const res = await fetch(baseURL + "update", {
-                method: 'POST',
-                headers: {"Content-Type": "application/json"},
+                method: 'PATCH',
                 body: JSON.stringify({
                     newEmail: emailInput,
                     newPassword: passwordInput
@@ -93,10 +128,12 @@
             const data = await res.json()
             if (res.redirected == true) {
                 console.log('success')
+                getUserInfo()
                 div('account') 
             }
             
         }
+        
     </script>
 
     <div id="physical" class="hidden">
