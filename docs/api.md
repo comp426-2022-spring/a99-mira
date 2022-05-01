@@ -79,13 +79,25 @@ signup.html
 ## /app/log/access/ (GET)
 #### Request cURL
 ```
+node server.js --debug=true
 curl -v http://localhost:5555/mhr
 ```
 #### Response body
-
+```
+Better-Sqlite-3 database log containing all user interactions (get/post/patch/delete) requests
+```
 #### Response headers
-
-
+```
+< HTTP/1.1 200 OK
+< X-Powered-By: Express
+< Content-Type: application/json; charset=utf-8
+< Content-Length: 299073
+< ETag: W/"49041-GGxQ6mqC5lHChhA5YDSfuRE3Y7E"
+< Set-Cookie: connect.sid=s%3AoxxKJ81yDKG4F0MmFHTy8XjLu6Q8nFn7.HFHl1N%2B3N1%2B3vV%2BthDHJOhAnL%2Fivob6G5cuvGpmDDmo; Path=/; HttpOnly
+< Date: Sun, 01 May 2022 22:49:59 GMT
+< Connection: keep-alive
+< Keep-Alive: timeout=5
+```
 ## /app/log/error/ (GET)
 #### Request cURL
 
