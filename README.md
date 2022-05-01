@@ -36,3 +36,8 @@ node server.js [options]
                 Logs are always written to database.
 
     --help	Return this message and exit.
+
+
+## final submission video:
+https://youtu.be/SAAN9xju6VA
+
