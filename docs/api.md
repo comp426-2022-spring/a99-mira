@@ -1,5 +1,27 @@
-# Get Endpoints
+#/mhr Get Endpoints
 
+## / (GET)
+#### Request cURL
+```
+curl -v http://localhost:5555/
+```
+#### Response body
+```
+Found. Redirecting to /mhr/signup/   
+```
+#### Response headers
+```
+< HTTP/1.1 302 Found
+< X-Powered-By: Express
+< Location: /mhr/signup/
+< Vary: Accept
+< Content-Type: text/plain; charset=utf-8
+< Content-Length: 34
+< Set-Cookie: connect.sid=s%3A6t98NWFkiZBup1KF9LFpDQg5aNDEnjMI.igWt9bnMejavTSkzUEQeYKlug4IVfTIMmZOkgO4ZpiQ; Path=/; HttpOnly
+< Date: Sun, 01 May 2022 23:00:00 GMT
+< Connection: keep-alive
+< Keep-Alive: timeout=5
+```
 ## /mhr/ (GET)
 #### Request cURL
 ```
@@ -76,6 +98,8 @@ signup.html
 < Connection: keep-alive
 < Keep-Alive: timeout=5
 ```
+#/app API Get Endpoints
+
 ## /app/log/access/ (GET)
 #### Request cURL
 ```
@@ -119,4 +143,48 @@ curl -v http://localhost:5555/app/error
 < Connection: keep-alive
 < Keep-Alive: timeout=5
 ```
+## /app/users/info (GET)
+#### Request cURL
 
+#### Response body
+
+#### Response headers
+
+## /app/users/logout (GET)
+#### Request cURL
+
+#### Response body
+
+#### Response headers
+
+#/app API Post Endpoints
+
+## /app/users/signUpRequest (POST)
+#### Request cURL
+
+#### Response body
+
+#### Response headers
+
+## /app/auth/login (POST)
+#### Request cURL
+
+#### Response body
+
+#### Response headers
+
+## /app/users/update (POST)
+#### Request cURL
+
+#### Response body
+
+#### Response headers
+
+#/app API Delete Endpoints
+
+## /app/users/info (DELETE)
+#### Request cURL
+
+#### Response body
+
+#### Response headers
