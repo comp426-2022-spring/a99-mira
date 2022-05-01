@@ -184,11 +184,11 @@ app.post('/app/auth/login', (req, res) => {
         } else { //If it does exist
             req.session.loggedin = true;
 			req.session.username = username;
-            res.redirect('/mhr/')
+            console.log('successful log in, trying redirect')
+            return res.redirect('/mhr/')
         }
     } else {
         res.send({"response":'Please enter Username and Password'})
-        res.end()
     }
 })
 

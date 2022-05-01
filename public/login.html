@@ -31,14 +31,17 @@
             
             const res = await fetch(baseURL + 'login', {
                 method: 'POST',
+                redirect: 'follow',
+                headers: {"Content-Type": 'application/json'},
                 body: JSON.stringify({
                     username: usernameInput,
                     password: passwordInput
                 })
             })
             console.log(res)
+            window.location.href = res.url
             // const data = await res.json()
-            //If the account does not exist in the database
+            // //If the account does not exist in the database
             // if (data.checkUser == "false") {
             //     alert("An account does not exist with your username and password. Please visit the signup page to create one.")
             // }
