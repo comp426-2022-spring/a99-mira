@@ -1,4 +1,4 @@
-#/mhr Get Endpoints
+# /mhr Get Endpoints
 
 ## / (GET)
 #### Request cURL
@@ -98,7 +98,7 @@ signup.html
 < Connection: keep-alive
 < Keep-Alive: timeout=5
 ```
-#/app API Get Endpoints
+# /app API Get Endpoints
 
 ## /app/log/access/ (GET)
 #### Request cURL
@@ -144,23 +144,29 @@ curl -v http://localhost:5555/app/error
 < Keep-Alive: timeout=5
 ```
 ## /app/users/info (GET)
-#### Request cURL
-
+#### Request params
+```
+This endpoint is passed a request from the frontend using the express-session module. With this module, every request has an associated username (the one that was entered on the login page)
+```
 #### Response body
-
-#### Response headers
-
+```
+This endpoint querys the user database and responds with a JSON file containing the corresponding password and email for the username that requested the data. 
+{"username": query.username, "password": query.password, "email":query.email}
+```
 ## /app/users/logout (GET)
-#### Request cURL
-
+#### Request params
+```
+This endpoint is also passed a basic request from the front-end containing the unique username associated with the log-in session from express-session.
+```
 #### Response body
-
-#### Response headers
-
-#/app API Post Endpoints
+```
+The response for this endpoint is a console log of successful logout and a redirection back to the signup page. The server records that the session with the username contained in the request is no longer active.
+```
+# /app API Post Endpoints
 
 ## /app/users/signUpRequest (POST)
-#### Request cURL
+#### Request params
+
 
 #### Response body
 
@@ -180,7 +186,7 @@ curl -v http://localhost:5555/app/error
 
 #### Response headers
 
-#/app API Delete Endpoints
+# /app API Delete Endpoints
 
 ## /app/users/info (DELETE)
 #### Request cURL
