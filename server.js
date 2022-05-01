@@ -121,15 +121,11 @@ app.get("/", function (req, res) {
 });
 
 app.get('/mhr/', (req, res) => {
-    // if (req.session.loggedin) {
-	// 	// Output username
-	// 	//res.send({"rjson":'Welcome back, ' + req.session.username + '!'});
-	// } else {
-	// 	// Not logged in
-	// 	res.send('Please login to view this page!');
-    //     res.end()
-	// }
+    if (!req.session.loggedin) {
+        res.send('Please login to view this page!');
+	} else {
     res.sendFile(path.join(__dirname,'/public/homepage.html'))
+    }
 })
 
 app.get('/mhr/login', (req, res) => {
@@ -141,18 +137,31 @@ app.get('/mhr/signup', (req, res) => {
     res.sendFile(path.join(__dirname,'/public/signup.html'))
 })
 
+app.get('/app/users/info', (req, res) => {
+    let username = req.session.username
+    const userInfoQuery = db.prepare('SELECT * FROM users where username=?').get(username, password, email)
+
+})
+
 //POST ENDPOINTS
 app.post('/app/users/signUpRequest', (req, res) => {
     //Get the new user's info from the front end request
     let username = req.body.username
     let password = req.body.password
     let email = req.body.email
+    console.log('entered endpoint')
     //Database:
     //this code checks the database for a username and password combo
     //if the pair does not exist a false value is returned to doesExist variable 
     //and the webpage prints that username or password are incorrect
     //if the pair does exist a true value is returned to doesExist variable
+    addUser(db, username, password, email)
+    req.session.loggedin = true;
+	req.session.username = username;
+    console.log('added user')
+    res.redirect('/mhr/')
 
+<<<<<<< HEAD
     let doesExist
 
     console.log("something_happening")
@@ -174,6 +183,8 @@ app.post('/app/users/signUpRequest', (req, res) => {
     if (doesExist == false){
         return res.redirect('/mhr/signup')
     }
+=======
+>>>>>>> 43998a9a6e4c5bb2500c751a186a95d35f92d6fe
 })
 app.post('/app/auth/login', (req, res) => {
     let username = req.body.username;
@@ -202,24 +213,25 @@ app.post('/app/auth/login', (req, res) => {
 
 app.post('/app/users/logout', (req, res) => {
     //Use session to log ppl out
+    req.session.loggedin = false;
+    console.log("successful log out")
+    return res.redirect('/mhr/signup')
 })
 //PATCH METHODS
 app.patch('/app/users/update', (req, res) => {
-    let username = req.body.username;
+    //For a certain username, process changes to password and email
+    //Get username, password, and email values from front-end request
+    let username = req.session.username;
     let password = req.body.password;
     let email = req.body.email;
     if(username && password && email){
-        db.prepare("get use database using username =?").get(username)
-        if(username != undefined){
-        db.run('Update password = ? and email = ?', password, email);
-        
-    }}
-    //For a certain username, process changes to password and email
-    
-    //Get username, password, and email values from front-end request
-
-    //Search for the record in database with username, then change password/email to new values
-    res.status(200).json({"status" : success});
+        flag = updateUser(username, password, email)
+        //Search for the record in database with username, then change password/email to new values
+        if (flag) { //This means updateUser was successful
+            return res.redirect('/mhr/')
+        }
+        res.send({"response":"Update failed :("})
+    }
     //Return a JSON containing {"status" : "success" } to frontend
 })
 
