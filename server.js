@@ -90,6 +90,8 @@ app.use((req, res, next) => {
 //middleware for creating databases, uncomment function if changes need to be made to database architecture
 //otherwise nothing happens
 app.use((req, res, next) =>{
+    //deleteUser(db, "bgatts",'12345', "bgatts@live.unc.edu")
+    const userCheck = checkCreds(db, "bgatts",'12345')
     //makedbs(db);          //uncomment this line if changing table architecture
     next()
 })
@@ -155,8 +157,8 @@ app.post('/app/users/signUpRequest', (req, res) => {
 
     console.log("something_happening")
 
-    const userCheck = db.prepare('SELECT * FROM users where username=?').get(username)
-    if(userCheck == undefined){
+    const userCheck = checkCreds(username,password)
+    if(userCheck.lastInsertRowid<450){
         res.message = 'Username or Password Incorrect'
         doesExist = false
         console.log("still_working")
@@ -182,9 +184,9 @@ app.post('/app/auth/login', (req, res) => {
     // this code takes a username and password variable and checks if eiher are in the db already
     // if they are it returns the message username or password already exist
     // if they arent they are added to the db check to see if user already exists
-        const userCheck = db.prepare('SELECT * FROM users where username=? OR password=?').get(username, password)
+        const userCheck = checkCreds(db, username)
         //If account doesn't exist
-        if(userCheck == undefined){
+        if(userCheck.lastInsertRowid <450){
             res.send({"checkUser":"false"})
 
         } else { //If it does exist
