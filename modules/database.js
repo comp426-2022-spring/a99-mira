@@ -25,10 +25,12 @@
  }
 
  //check if sign in info is in database are return true or false
- export function checkCreds(db, username){
+ export function checkCreds(db, username, password){
 
-   const input = db.prepare('SELECT * FROM users where username=?')
-   const info = input.run(username)
+   const input = db.prepare('SELECT * FROM users where username=? AND password = ?')
+   const info = input.run(username, password)
+
+   console.log(info)
 
 
    
@@ -36,7 +38,14 @@
 
  }
 
+ export function updateUser(db, username, password, email){
 
+   deleteUser(db,username)
+   addUser(db,username,password,email)
+
+   return true
+
+ }
 
 
 
@@ -47,9 +56,6 @@ export function deleteUser(db, username){
 
    console.log(info)
    return info
-
-
-
 
 }
 

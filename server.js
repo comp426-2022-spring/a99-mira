@@ -7,10 +7,13 @@ import Database from 'better-sqlite3';
 import path from 'path';
 import session from 'express-session';
 import {addUser, checkCreds, deleteUser, makedbs} from './modules/database.js';       //create databases
-
+import APIError from './error/APIError.js';
+import apiErrorHandler from './error/api-error-handler.js';
 //SERVER SETUP
 const app = express();
 const db = new Database('site.db')                  //set up database
+//const APIError = require('./error/APIError');
+//const apiErrorHandler = require('./error/api-error-handler');
 //create log database, because this is related to server going to leave it in here
 //only need to run once when changing the architecture of db, otherwise can stay commented out
 //const statments = 'CREATE TABLE accesslog (remoteadder, remoteuser, time, method, url, protocol, httpversion, status, refer, useragent)'
@@ -90,6 +93,8 @@ app.use((req, res, next) => {
 //middleware for creating databases, uncomment function if changes need to be made to database architecture
 //otherwise nothing happens
 app.use((req, res, next) =>{
+    //deleteUser(db, "bgatts",'12345', "bgatts@live.unc.edu")
+    const userCheck = checkCreds(db, "bgatts",'12345')
     //makedbs(db);          //uncomment this line if changing table architecture
     next()
 })
@@ -142,11 +147,15 @@ app.get('/app/users/info', (req, res) => {
 })
 
 //POST ENDPOINTS
-app.post('/app/users/signUpRequest', (req, res) => {
+app.post('/app/users/signUpRequest', (req, res, next) => {
     //Get the new user's info from the front end request
     let username = req.body.username
     let password = req.body.password
     let email = req.body.email
+    if(username === "" || password === "" || email === ""){
+        next(APIError.Invalidrequest('Black fields'));
+        return;
+    }
     console.log('entered endpoint')
     //Database:
     //this code checks the database for a username and password combo
@@ -159,19 +168,44 @@ app.post('/app/users/signUpRequest', (req, res) => {
     console.log('added user')
     res.redirect('/mhr/')
 
+    let doesExist
+
+    console.log("something_happening")
+ 
+    const userCheck = checkCreds(username,password)
+    if(userCheck.lastInsertRowid<450){
+        res.message = 'Username or Password Incorrect'
+        doesExist = false
+        console.log("still_working")
+
+    }
+    else{
+        doesExist = true
+        res.message = 'login page';
+        console.log("serch_worked")
+    }
+
+
+    if (doesExist == false){
+        return res.redirect('/mhr/signup')
+    }
 })
-app.post('/app/auth/login', (req, res) => {
+app.post('/app/auth/login', (req, res, next) => {
     let username = req.body.username;
     let password = req.body.password;
     console.log(username)
     console.log(password)
+    if(username === "" || password === ""){
+        next(APIError.Invalidrequest('wrong username or password'));
+        return;
+    }
     if (username && password) {
     // this code takes a username and password variable and checks if eiher are in the db already
     // if they are it returns the message username or password already exist
     // if they arent they are added to the db check to see if user already exists
-        const userCheck = db.prepare('SELECT * FROM users where username=? OR password=?').get(username, password)
+        const userCheck = checkCreds(db, username)
         //If account doesn't exist
-        if(userCheck == undefined){
+        if(userCheck.lastInsertRowid <450){
             res.send({"checkUser":"false"})
 
         } else { //If it does exist
@@ -198,6 +232,10 @@ app.patch('/app/users/update', (req, res) => {
     let username = req.session.username;
     let password = req.body.password;
     let email = req.body.email;
+    if(username === "" || password === "" || email === ""){
+        next(APIError.Invalidrequest('Blank fields'));
+        return;
+    }
     if(username && password && email){
         flag = updateUser(username, password, email)
         //Search for the record in database with username, then change password/email to new values
@@ -233,5 +271,8 @@ app.delete('/app/users/delete', (req, res) => {
 
     //If the delete is successful, use res.redirect to send the user back to the signup page
 })
+
+app.use(apiErrorHandler);
+
 
     
