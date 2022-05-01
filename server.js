@@ -203,12 +203,21 @@ app.post('/app/users/logout', (req, res) => {
 })
 //PATCH METHODS
 app.patch('/app/users/update', (req, res) => {
+    let username = req.body.username;
+    let password = req.body.password;
+    let email = req.body.email;
+    if(username && password && email){
+        db.prepare("get use database using username =?").get(username)
+        if(username != undefined){
+        db.run('Update password = ? and email = ?', password, email);
+        
+    }}
     //For a certain username, process changes to password and email
     
     //Get username, password, and email values from front-end request
 
     //Search for the record in database with username, then change password/email to new values
-
+    res.status(200).json({"status" : success});
     //Return a JSON containing {"status" : "success" } to frontend
 })
 

@@ -39,13 +39,14 @@
                 })
             })
             console.log(res)
-            window.location.href = res.url
-            // const data = await res.json()
-            // //If the account does not exist in the database
-            // if (data.checkUser == "false") {
-            //     alert("An account does not exist with your username and password. Please visit the signup page to create one.")
-            // }
-            //If the user is new, then we need method to add them to the database
+            if (res.redirected==true) {
+                window.location.href = res.url
+            }
+            const data = await res.json()
+            //If the account does not exist in the database
+            if (data.checkUser == "false") {
+                alert("An account does not exist with your username and password. Please visit the signup page to create one.")
+            }
             
         }
     </script> 
