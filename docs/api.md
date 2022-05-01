@@ -145,39 +145,28 @@ curl -v http://localhost:5555/app/error
 ```
 ## /app/users/info (GET)
 #### Request params
-```
-This endpoint is passed a request from the frontend using the express-session module. With this module, every request has an associated username (the one that was entered on the login page)
-```
+```This endpoint is passed a request from the frontend using the express-session module. With this module, every request has an associated username (the one that was entered on the login page)```
 #### Response body
-```
-This endpoint querys the user database and responds with a JSON file containing the corresponding password and email for the username that requested the data. 
-{"username": query.username, "password": query.password, "email":query.email}
-```
+```This endpoint querys the user database and responds with a JSON file containing the corresponding password and email for the username that requested the data. {"username": query.username, "password": query.password, "email":query.email}```
 ## /app/users/logout (GET)
 #### Request params
-```
-This endpoint is also passed a basic request from the front-end containing the unique username associated with the log-in session from express-session.
-```
+```This endpoint is also passed a basic request from the front-end containing the unique username associated with the log-in session from express-session.```
 #### Response body
-```
-The response for this endpoint is a console log of successful logout and a redirection back to the signup page. The server records that the session with the username contained in the request is no longer active.
-```
+```The response for this endpoint is a console log of successful logout and a redirection back to the signup page. The server records that the session with the username contained in the request is no longer active.```
 # /app API Post Endpoints
 
 ## /app/users/signUpRequest (POST)
 #### Request params
-
-
+```This endpoint is set up to receive a request with the desired username, email, and password of a potential new user. A fetch request from the front-end script sends these values in the body of a post request.```
 #### Response body
-
-#### Response headers
+```This endpoint calls the necessary methods to create a new user in the database and then responds with a redirection to the main page after authenticating the user.```
 
 ## /app/auth/login (POST)
-#### Request cURL
+#### Request params
+```This endpoint is set up to receive an authentication request from a pre-existing user in the database. It takes in the username and password values entered by the user into a form on the front-end.```
 
 #### Response body
-
-#### Response headers
+```After receiving the username and password request, this endpoint checks the credentials against the database of users, and if the user if valid it authenticates them and responds with a redirection to the main page.```
 
 ## /app/users/update (POST)
 #### Request cURL
