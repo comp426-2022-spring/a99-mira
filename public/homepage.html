@@ -29,8 +29,49 @@
     </div> 
 
     <div id="account" class="hidden">
-        <p>Bruh</p>
+        <p id="actUser">Username</p>
+        <p id="actPass">Password</p>
+        <p id="actEmail">Email</p>
+        <button id="editProfileBtn", onclick="div('accountEdit')">Edit Profile</button>
     </div>
+    <script>
+
+    </script>
+    <div id="accountEdit" class="hidden">
+        <form>
+            <input type="text" placeholder="New email" name="newEmail" id="changeEmail">
+            <input type="text" placeholder="New password" name="newPassword" id="changePassword">
+            <button type="submit" id="submitChangeBtn" class="submitButton"></button>
+        </form>
+    </div>
+    <script>
+        const submitChangeBtn = document.getElementById("submitChangeBtn")
+        submitChangeBtn.addEventListener("submit", submitChange)
+        const baseURL = "https://localhost:5555/app/users/"
+        
+
+        async function submitChange(e) {
+            e.preventDefault()
+            let emailInput = document.getElementById("changeEmail").value
+            let passwordInput = document.getElementById("changePassword").value
+
+            const res = await fetch(baseURL + "update", {
+                method: 'POST',
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    newEmail: emailInput,
+                    newPassword: passwordInput
+                })
+            })
+            console.log(res)
+            const data = await res.json()
+            if (res.redirected == true) {
+                console.log('success')
+                div('account') 
+            }
+            
+        }
+    </script>
 
     <div id="physical" class="hidden">
         <h2>Find resources near you.</h2>
