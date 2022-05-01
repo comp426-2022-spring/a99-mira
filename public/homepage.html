@@ -2,8 +2,8 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="style.css">
-<script src="script.js"></script> 
+<link rel="stylesheet" href="/style.css">
+<script src="/script.js"></script> 
 </head>
 <body>
     <nav>
@@ -35,9 +35,9 @@
     </div> 
 
     <div id="account" class="hidden">
-        <p id="actUser">Username</p>
-        <p id="actEmail">Email</p>
-        <p id="actPass">Password</p>
+        <p id="actUser" class="actInfo"><span style="font-weight: bolder">Username</span></p>
+        <p id="actEmail" class="actInfo"><span style="font-weight: bolder">Email</span></p>
+        <p id="actPass" class="actInfo"><span style="font-weight: bolder">Password</span></p>
         <button id="editProfileBtn", onclick="div('accountEdit')">Edit Profile</button>
         <button id="logoutBtn">Log Out</button>
         <button id="deleteActBtn">Delete Account :(</button>
