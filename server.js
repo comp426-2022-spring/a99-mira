@@ -7,12 +7,13 @@ import Database from 'better-sqlite3';
 import path from 'path';
 import session from 'express-session';
 import {addUser, checkCreds, deleteUser, makedbs} from './modules/database.js';       //create databases
-
+import APIError from './error/APIError.js';
+import apiErrorHandler from './error/api-error-handler.js';
 //SERVER SETUP
 const app = express();
 const db = new Database('site.db')                  //set up database
-const APIError = require('./error/APIError');
-const apiErrorHandler = require('./error/api-error-handler');
+//const APIError = require('./error/APIError');
+//const apiErrorHandler = require('./error/api-error-handler');
 //create log database, because this is related to server going to leave it in here
 //only need to run once when changing the architecture of db, otherwise can stay commented out
 //const statments = 'CREATE TABLE accesslog (remoteadder, remoteuser, time, method, url, protocol, httpversion, status, refer, useragent)'

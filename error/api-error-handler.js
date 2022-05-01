@@ -1,7 +1,7 @@
-const APIError = require('./APIError');
+import APIError from "./APIError.js";
 
 
-function apiErrorHandler(err, res, res, next){
+export default function apiErrorHandler(err, req, res, next){
     console.error.apply(err);
 
     if(err instanceof APIError){
@@ -10,4 +10,3 @@ function apiErrorHandler(err, res, res, next){
 
     res.status(500).json('something went wrong');
 }
-module.exports = apiErrorHandler;
