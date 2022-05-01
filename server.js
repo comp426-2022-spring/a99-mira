@@ -126,10 +126,10 @@ app.get("/", function (req, res) {
 
 app.get('/mhr/', (req, res) => {
     if (!req.session.loggedin) {
-        res.send('Please login to view this page!');
+        res.send('Please login to view this page! at /mhr/signup');
 	} else {
     res.sendFile(path.join(__dirname,'/public/homepage.html'))
-    }
+    }   
 })
 
 app.get('/mhr/login', (req, res) => {
