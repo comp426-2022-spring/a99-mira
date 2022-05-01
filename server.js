@@ -1,33 +1,45 @@
+//IMPORT STATEMENTS
 import minimist from 'minimist';
 import express from 'express';
 import fs from 'fs';
 import morgan from 'morgan';
-import Database from 'better-sqlite3'
+import Database from 'better-sqlite3';
 import path from 'path';
-import {addUser, makedbs} from './modules/database.js';       //create databases
-import e from 'express';
-
-
+import session from 'express-session';
+import {addUser, checkCreds, deleteUser, makedbs} from './modules/database.js';       //create databases
+import APIError from './error/APIError.js';
+import apiErrorHandler from './error/api-error-handler.js';
+//SERVER SETUP
 const app = express();
 const db = new Database('site.db')                  //set up database
+//const APIError = require('./error/APIError');
+//const apiErrorHandler = require('./error/api-error-handler');
 //create log database, because this is related to server going to leave it in here
 //only need to run once when changing the architecture of db, otherwise can stay commented out
 //const statments = 'CREATE TABLE accesslog (remoteadder, remoteuser, time, method, url, protocol, httpversion, status, refer, useragent)'
 //db.exec(statments)
-
-
 // Make Express use its own built-in body parser for both urlencoded and JSON body data.
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(express.static('./public'));
+app.use(session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+}));
 
+//Path to server directory & express.static setup
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+//console.log(dirname)
+app.use(express.static(path.join(__dirname, '/public/')))
+
+//Process command line arguments
 const args = minimist(process.argv.slice(2));
 const port = args.port || process.env.PORT || 5555;
 const debug = args.debug || false;
 const log = args.log || true;
+//console.log(args)
 
-console.log(args)
-//help message
+//HELP MESSAGE
 if (args.help || args.h) {
     console.log(`
     server.js [options]
@@ -47,6 +59,7 @@ if (args.help || args.h) {
     process.exit(0)
 }
 
+//START SERVER
 const server = app.listen(port, () => {
     console.log('App is running on port %PORT%'.replace('%PORT%', port));
 })
@@ -80,6 +93,8 @@ app.use((req, res, next) => {
 //middleware for creating databases, uncomment function if changes need to be made to database architecture
 //otherwise nothing happens
 app.use((req, res, next) =>{
+    //deleteUser(db, "bgatts",'12345', "bgatts@live.unc.edu")
+    const userCheck = checkCreds(db, "bgatts",'12345')
     //makedbs(db);          //uncomment this line if changing table architecture
     next()
 })
@@ -99,126 +114,165 @@ if (log !== 'false') {
     const accesslog = fs.createWriteStream('access.log', { flags: 'a' })
     app.use(morgan('combined', { stream: accesslog }))
 }
+//GET ENDPOINTS
+app.get('/style.css', (req, res) => {
+    res.sendFile(path.join(__dirname, "/public/style.css"));
+});
 
 app.get("/", function (req, res) {
-    res.sendFile('index1.html', { root: path.join(__dirname, '../public') });
+    return res.redirect('/mhr/signup/')
 });
 
 app.get('/mhr/', (req, res) => {
-    // Respond with message "Main Page"
-    res.message = 'Main Page';
-    res.end(res.message)
-})
-
-app.get('/mhr/virtual', (req, res) => {
-    // Respond with message "Virtual Resource Page"
-    res.message = 'Virtual Resource Page';
-    res.end(res.message)
-})
-
-app.get('/mhr/physical', (req, res) => {
-    // Respond with message "Physical Resource Page"
-    res.message = 'Physical Resource Page';
-    res.end(res.message)
+    if (!req.session.loggedin) {
+        res.send('Please login to view this page!');
+	} else {
+    res.sendFile(path.join(__dirname,'/public/homepage.html'))
+    }
 })
 
 app.get('/mhr/login', (req, res) => {
+    res.sendFile(path.join(__dirname,'/public/login.html'))
 
+})
 
+app.get('/mhr/signup', (req, res) => {
+    res.sendFile(path.join(__dirname,'/public/signup.html'))
+})
 
-    //********** frontend: 
-    //can you make a text box for username and password here with a submit button
-    // when the submit button is pressed create a variable "username" and "password" for me to pass to the db
-    // for now I'm going to hard code my name and a dummy password
+app.get('/app/users/info', (req, res) => {
+    let username = req.session.username
+    const userInfoQuery = db.prepare('SELECT * FROM users where username=?').get(username, password, email)
 
+})
 
-    let username = "Bronson"
-    let password = "123456"
-
+//POST ENDPOINTS
+app.post('/app/users/signUpRequest', (req, res, next) => {
+    //Get the new user's info from the front end request
+    let username = req.body.username
+    let password = req.body.password
+    let email = req.body.email
+    if(username === "" || password === "" || email === ""){
+        next(APIError.Invalidrequest('Black fields'));
+        return;
+    }
+    console.log('entered endpoint')
     //Database:
     //this code checks the database for a username and password combo
     //if the pair does not exist a false value is returned to doesExist variable 
     //and the webpage prints that username or password are incorrect
     //if the pair does exist a true value is returned to doesExist variable
+    addUser(db, username, password, email)
+    req.session.loggedin = true;
+	req.session.username = username;
+    console.log('added user')
+    res.redirect('/mhr/')
 
     let doesExist
 
-    const userCheck = db.prepare('SELECT * FROM users where username=? AND password=?').get(username, password)
-    if(userCheck == undefined){
+    console.log("something_happening")
+
+    const userCheck = checkCreds(username,password)
+    if(userCheck.lastInsertRowid<450){
         res.message = 'Username or Password Incorrect'
         doesExist = false
+        console.log("still_working")
+
     }
     else{
         doesExist = true
         res.message = 'login page';
+        console.log("serch_worked")
     }
 
 
-    //********** backend:
-    //the function will return a true or false value depending on wheather the username and password and are in the db
-    //would you mind doing error handling for that?
-    //do you want any more information, uid possibly?
+    if (doesExist == false){
+        return res.redirect('/mhr/signup')
+    }
+})
+app.post('/app/auth/login', (req, res, next) => {
+    let username = req.body.username;
+    let password = req.body.password;
+    console.log(username)
+    console.log(password)
+    if(username === "" || password === ""){
+        next(APIError.Invalidrequest('wrong username or password'));
+        return;
+    }
+    if (username && password) {
+    // this code takes a username and password variable and checks if eiher are in the db already
+    // if they are it returns the message username or password already exist
+    // if they arent they are added to the db check to see if user already exists
+        const userCheck = checkCreds(db, username)
+        //If account doesn't exist
+        if(userCheck.lastInsertRowid <450){
+            res.send({"checkUser":"false"})
 
-    // Respond with message "login page"
-    res.end(res.message)
-
+        } else { //If it does exist
+            req.session.loggedin = true;
+			req.session.username = username;
+            console.log('successful log in, trying redirect')
+            return res.redirect('/mhr/')
+        }
+    } else {
+        res.send({"response":'Please enter Username and Password'})
+    }
 })
 
-app.get('/mhr/signup', (req, res) => {
-    // Respond with message "signup page"
-    //res.message = 'signup page';
-    //res.end(res.message)
-
-
-    //********** frontend: 
-    //can you make a text box for username and password here with a submit button
-    // when the submit button is pressed create a variable "username" and "password" for me to pass to the db
-    // for now I'm going to hard code my name and a dummy password
-
-    let username = "Bronson"
-    let password = "1123456"
-
-
-    //Database:
-    //this code takes a username and password variable and checks if eiher are in the db already
-    //if they are it returns the message username or password already exist
-    //if they arent they are added to the db
-
-    //check to see if user already exists
-    const wasCreated = false
-    const userCheck = db.prepare('SELECT * FROM users where username=? OR password=?').get(username, password)
-    if(userCheck == undefined){
-        addUser(db, username, password)
-        res.message = 'signup page'
-        wasCreated = true
-    }
-    else{
-        res.message = 'Username or password already exists'
-        wasCreated = false
-    }
-
-    //test code for checking users are being added to the db
-    //const querry = db.prepare('SELECT * FROM users where username = ?').get(username)
-    //console.log(querry.username, querry.password, querry.id)
-    res.end(res.message)
-    //res.status(200).json(info)   
-
-
-
-
-
-
-
-    //************Backend:
-    //The function will return a true or false value wasCreated depending on if either of the fields are blank
-    //would you guys mind doing error handling for that?
-
-
-
-
-
-
-
-
-
+app.post('/app/users/logout', (req, res) => {
+    //Use session to log ppl out
+    req.session.loggedin = false;
+    console.log("successful log out")
+    return res.redirect('/mhr/signup')
 })
+//PATCH METHODS
+app.patch('/app/users/update', (req, res) => {
+    //For a certain username, process changes to password and email
+    //Get username, password, and email values from front-end request
+    let username = req.session.username;
+    let password = req.body.password;
+    let email = req.body.email;
+    if(username === "" || password === "" || email === ""){
+        next(APIError.Invalidrequest('Blank fields'));
+        return;
+    }
+    if(username && password && email){
+        flag = updateUser(username, password, email)
+        //Search for the record in database with username, then change password/email to new values
+        if (flag) { //This means updateUser was successful
+            return res.redirect('/mhr/')
+        }
+        res.send({"response":"Update failed :("})
+    }
+    //Return a JSON containing {"status" : "success" } to frontend
+})
+
+//DELETE METHODS
+app.delete('/app/users/delete', (req, res) => {
+    //For a certain username, delete that user's record & information from the database
+
+    //Get username value from front-end request
+
+    //Delete user from database
+
+
+    let testDel = deleteUser(db, "bgatts")
+
+    if (testDel.changes > 0){
+        //this means succcess
+        console.log("he gone")
+    }
+
+
+
+    //deleteUser(db,"bgatts")
+
+
+
+    //If the delete is successful, use res.redirect to send the user back to the signup page
+})
+
+app.use(apiErrorHandler);
+
+
+    

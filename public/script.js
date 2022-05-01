@@ -9,12 +9,9 @@ function div(name) { // set active div on click
     document.getElementById(name).setAttribute("class", "active") // show clicked div
 }
 
-function submitSignIn() {
-    var username = document.getElementById("username")
-    var password = document.getElementById("password")
-
-}
-
-function submitSignUp() {
-
+function showAccountEdit() {
+    accountPage = document.getElementById("account")
+    accountPage.setAttribute("class", "hidden")
+    accountEdit = document.getElementById("accountEdit")
+    accountEdit.setAttribute("class","active")
 }

@@ -6,32 +6,56 @@
  //to be run only once, will create all databased for site
  export function makedbs(db){
 
-    const user = 'CREATE TABLE users (username, password, id)'     //create table for users
+    //const user = 'DROP TABLE users'     //create table for users
+    const user = 'CREATE TABLE users (username, password, email, id)'     //create table for users
     db.exec(user)
-    const locations = 'CREATE TABLE locations (name, address, id)'      //create table for locaitons
-    db.exec(locations)
-    const actions = 'CREATE TABLE actions (userid, type)'           //create table for user actions
-    db.exec(actions)
+    //const locations = 'CREATE TABLE locations (name, address, id)'      //create table for locaitons
+    //db.exec(locations)
+    //const actions = 'CREATE TABLE actions (userid, type)'           //create table for user actions
+    //db.exec(actions)
 
  }
 
  //run every time ubmit button is pressed on login page
- export function addUser(db, username, password){
+ export function addUser(db, username, password, email){
 
-    const input = db.prepare('INSERT INTO users (username, password, id) VALUES(?,?,?)')
-    const info = input.run(username,password,uuidv1())
+    const input = db.prepare('INSERT INTO users (username, password, email, id) VALUES(?,?,?,?)')
+    const info = input.run(username,password,email,uuidv1())
 
  }
 
  //check if sign in info is in database are return true or false
- export function checkCreds(username, password){
+ export function checkCreds(db, username, password){
 
+   const input = db.prepare('SELECT * FROM users where username=? AND password = ?')
+   const info = input.run(username, password)
+
+   console.log(info)
+
+
+   
+   return info
+
+ }
+
+ export function updateUser(db, username, password, email){
+
+   deleteUser(db,username)
+   addUser(db,username,password,email)
+
+   return true
 
  }
 
 
- export function addAction(userid, actionType){
 
+export function deleteUser(db, username){
+
+   const input = db.prepare('DELETE FROM users WHERE username = ?')
+   const info = input.run(username)
+
+   console.log(info)
+   return info
 
 }
 
