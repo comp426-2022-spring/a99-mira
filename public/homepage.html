@@ -37,7 +37,7 @@
     </div>
     <script>
         const logoutBtn = document.getElementById("logoutBtn")
-        logoutBtn.addEventListener('click', processLogout())
+        logoutBtn.addEventListener('click', processLogout)
         const baseURL2 = 'https://localhost:5555/app/users'
 
         async function processLogout(e) {
@@ -46,13 +46,14 @@
                 method: 'POST',
                 headers: {'Content-Type':'application/json'}
             })
+            console.log(res)
+            if (res.redirected==true) {
+              window.location.href = res.url
+            } else {
+              alert("Logout failed :(")
+            }
         }
-        console.log(res)
-        if (res.redirected==true) {
-            window.location.href = res.url
-        } else {
-            alert("Logout failed :(")
-        }
+        
     </script>
     <div id="accountEdit" class="hidden">
         <form>

@@ -12,16 +12,16 @@
             <input type="text" placeholder="Username" name="username" id="usernameSignup" required>
             <input type="text" placeholder="Email" name="email" id="emailSignup" required>
             <input type="password" placeholder="Password" name="password" id="passwordSignup" required>
-            <button id="submitBtn" type="submit" class="submitButton">Register</button>
+            <button id="submitBtn2" type="submit" class="submitButton">Register</button>
         </form>
         <a href="../login">Already have an account? Log in here</a>
     </div> 
     <script>
-        const submitBtn = document.getElementById("submitBtn")
+        const submitBtn2 = document.getElementById("submitBtn2")
 
-        const baseURL = 'http://localhost:5555/users/'
+        const baseURL = 'http://localhost:5555/app/users/'
 
-        submitBtn.addEventListener('submit', submitSignUp)
+        submitBtn2.addEventListener('click', submitSignUp)
 
         //Function to check and see whether a username and password are already in the database
         async function submitSignUp(e) {
@@ -29,6 +29,9 @@
             const usernameInput = document.getElementById("usernameSignup")
             const passwordInput = document.getElementById("passwordSignup")
             const emailInput = document.getElementById("emailSignup")
+            console.log(usernameInput.value)
+            console.log(passwordInput.value)
+            console.log(emailInput.value)
             
             const res = await fetch(baseURL + 'signUpRequest', {
                 method: 'POST',

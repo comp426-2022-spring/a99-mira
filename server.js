@@ -121,8 +121,9 @@ app.get("/", function (req, res) {
 app.get('/mhr/', (req, res) => {
     if (!req.session.loggedin) {
         res.send('Please login to view this page!');
-	}
+	} else {
     res.sendFile(path.join(__dirname,'/public/homepage.html'))
+    }
 })
 
 app.get('/mhr/login', (req, res) => {
@@ -146,28 +147,18 @@ app.post('/app/users/signUpRequest', (req, res) => {
     let username = req.body.username
     let password = req.body.password
     let email = req.body.email
+    console.log('entered endpoint')
     //Database:
     //this code checks the database for a username and password combo
     //if the pair does not exist a false value is returned to doesExist variable 
     //and the webpage prints that username or password are incorrect
     //if the pair does exist a true value is returned to doesExist variable
+    addUser(db, username, password, email)
+    req.session.loggedin = true;
+	req.session.username = username;
+    console.log('added user')
+    res.redirect('/mhr/')
 
-    let doesExist
-
-    const userCheck = db.prepare('SELECT * FROM users where username=? AND password=?').get(username, password,email)
-    if(userCheck == undefined){
-        
-    }
-    else{
-        doesExist = true
-        res.message = 'login page';
-        console.log("serch_worked")
-    }
-
-
-    if (doesExist == false){
-        return res.redirect('/mhr/signup')
-    }
 })
 app.post('/app/auth/login', (req, res) => {
     let username = req.body.username;
