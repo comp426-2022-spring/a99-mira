@@ -60,15 +60,12 @@ button:hover {
 .submitButton {
     color: #FFFFFF;
     background:rgb(175, 193, 172);
-    margin-top: 30px;
     margin:auto;
     display:block;
 }
 .submitButton:hover {
     background: rgb(132, 152, 129);
 }
-
-
 
 h1 {
     font-size: 60px;
@@ -80,6 +77,7 @@ h1 {
 }
 
 .userHeader {
+    margin-top: 100px;
     text-align: center;
 }
 
@@ -87,6 +85,20 @@ p {
     margin-left: 20px;
     font-family: 'Trebuchet MS', sans-serif;
     font-size: 15px;
+}
+
+.actInfo {
+    margin-left: 0px;
+    margin-top: 20px;
+    text-align: center;
+}
+
+#actUser {
+    margin-top: 100px;
+}
+
+#actPass {
+    margin-bottom: 50px;
 }
 
 h2 {
