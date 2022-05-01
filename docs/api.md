@@ -3,7 +3,7 @@
 ## /mhr/ (GET)
 #### Request cURL
 ```
-curl http://localhost:5555/mhr
+curl -v http://localhost:5555/mhr
 ```
 #### Response body (for users who are not logged in)
 ```
@@ -30,7 +30,7 @@ Keep-Alive: timeout=5
 ## /mhr/login/ (GET)
 #### Request cURL
 ```
-curl http://localhost:5555/mhr
+curl -v http://localhost:5555/mhr
 ```
 #### Response body
 ```
@@ -54,15 +54,33 @@ login.html
 
 ## /mhr/signup/ (GET)
 #### Request cURL
-
+```
+curl -v http://localhost:5555/mhr
+```
 #### Response body
-
+```
+signup.html
+```
 #### Response headers
-
-
+```
+< HTTP/1.1 200 OK
+< X-Powered-By: Express
+< Accept-Ranges: bytes
+< Cache-Control: public, max-age=0
+< Last-Modified: Sun, 01 May 2022 20:47:14 GMT
+< ETag: W/"97e-18081609db6"
+< Content-Type: text/html; charset=UTF-8
+< Content-Length: 2430
+< Set-Cookie: connect.sid=s%3Asm1pHQ2weqAezSk-Tk3hwS1TWLNd8APF.HxAknZKYIhLvYEA4E0XiXCBAVSU4dgHIw4OJIvmwv8g; Path=/; HttpOnly
+< Date: Sun, 01 May 2022 22:45:02 GMT
+< Connection: keep-alive
+< Keep-Alive: timeout=5
+```
 ## /app/log/access/ (GET)
 #### Request cURL
-
+```
+curl -v http://localhost:5555/mhr
+```
 #### Response body
 
 #### Response headers
