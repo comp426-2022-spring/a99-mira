@@ -6,7 +6,7 @@ import morgan from 'morgan';
 import Database from 'better-sqlite3';
 import path from 'path';
 import session from 'express-session';
-import {addUser, makedbs, updateUser} from './modules/database.js';       //create databases
+import {addUser, checkCreds, deleteUser, makedbs} from './modules/database.js';       //create databases
 
 //SERVER SETUP
 const app = express();
@@ -127,6 +127,7 @@ app.get('/mhr/', (req, res) => {
 
 app.get('/mhr/login', (req, res) => {
     res.sendFile(path.join(__dirname,'/public/login.html'))
+
 })
 
 app.get('/mhr/signup', (req, res) => {
@@ -160,6 +161,7 @@ app.post('/app/users/signUpRequest', (req, res) => {
     else{
         doesExist = true
         res.message = 'login page';
+        console.log("serch_worked")
     }
 
 
@@ -223,6 +225,20 @@ app.delete('/app/users/delete', (req, res) => {
     //Get username value from front-end request
 
     //Delete user from database
+
+
+    let testDel = deleteUser(db, "bgatts")
+
+    if (testDel.changes > 0){
+        //this means succcess
+        console.log("he gone")
+    }
+
+
+
+    //deleteUser(db,"bgatts")
+
+
 
     //If the delete is successful, use res.redirect to send the user back to the signup page
 })
