@@ -5,9 +5,14 @@
 ```
 curl http://localhost:5555/mhr
 ```
-#### Response body
+#### Response body (for users who are not logged in)
 ```
 Please login to view this page!
+```
+
+#### Response body (for users who are logged in)
+```
+homepage.html
 ```
 #### Response headers
 ```
