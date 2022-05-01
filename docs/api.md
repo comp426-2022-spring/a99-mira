@@ -1,4 +1,4 @@
-# Endpoints
+# Get Endpoints
 
 ## /mhr/ (GET)
 #### Request cURL
@@ -27,29 +27,30 @@ Connection: keep-alive
 Keep-Alive: timeout=5
 ```
 
-## /mhr/virtual/ (GET)
-#### Request cURL
-
-#### Response body
-
-#### Response headers
-
-
-## /mhr/physical/ (GET)
-#### Request cURL
-
-#### Response body
-
-#### Response headers
-
-
 ## /mhr/login/ (GET)
 #### Request cURL
-
+```
+curl http://localhost:5555/mhr
+```
 #### Response body
-
+```
+login.html
+```
 #### Response headers
-
+```
+< HTTP/1.1 200 OK
+< X-Powered-By: Express
+< Accept-Ranges: bytes
+< Cache-Control: public, max-age=0
+< Last-Modified: Sun, 01 May 2022 21:43:31 GMT
+< ETag: W/"856-1808194269c"
+< Content-Type: text/html; charset=UTF-8
+< Content-Length: 2134
+< Set-Cookie: connect.sid=s%3AyjHJqiqjNflNA3JILwAz45uvkeuDWHgv.V1YFRqAMrhEyvSWqjWHMaJjDQw4livq5qP2rgDjfQGo; Path=/; HttpOnly
+< Date: Sun, 01 May 2022 22:43:03 GMT
+< Connection: keep-alive
+< Keep-Alive: timeout=5
+```
 
 ## /mhr/signup/ (GET)
 #### Request cURL
