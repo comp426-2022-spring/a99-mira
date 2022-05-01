@@ -43,6 +43,7 @@
    deleteUser(db,username)
    addUser(db,username,password,email)
 
+   let retVal = true;
    return true
 
  }
