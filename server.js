@@ -7,8 +7,6 @@ import Database from 'better-sqlite3';
 import path from 'path';
 import session from 'express-session';
 import {addUser, checkCreds, deleteUser, makedbs} from './modules/database.js';       //create databases
-const APIError = require('./error/APIError');
-const apiErrorHandler = require('./error/api-error-handler')
 
 //SERVER SETUP
 const app = express();
