@@ -21,6 +21,8 @@
 
     const input = db.prepare('INSERT INTO users (username, password, email, id) VALUES(?,?,?,?)')
     const info = input.run(username,password,email,uuidv1())
+    console.log(info)
+    //return info
 
  }
 
@@ -28,12 +30,8 @@
  export function checkCreds(db, username, password){
 
    const input = db.prepare('SELECT * FROM users where username=? AND password = ?')
-   const info = input.run(username, password)
+   const info = input.get(username, password)
 
-   console.log(info)
-
-
-   
    return info
 
  }
@@ -42,9 +40,11 @@
 
    deleteUser(db,username)
    addUser(db,username,password,email)
+   console.log("deleted and added")
 
    let retVal = true;
    return true
+   //return true
 
  }
 
@@ -56,7 +56,7 @@ export function deleteUser(db, username){
    const info = input.run(username)
 
    console.log(info)
-   return info
+   //return info
 
 }
 

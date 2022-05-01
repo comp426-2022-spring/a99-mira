@@ -63,26 +63,26 @@
 
         //FETCH ACCOUNT INFO
         async function getUserInfo() {
-        const actRes = await fetch('http://localhost:5555/app/users/info', {
-            method: 'GET',
-            headers: {
-                accept: 'application/json'
-            },
-        })
-          
-        const resJson = await actRes.json()
-        console.log(actRes)
-        console.log(resJson)
-        console.log(resJson.username)
+            const actRes = await fetch('http://localhost:5555/app/users/info', {
+                method: 'GET',
+                headers: {
+                    accept: 'application/json'
+                },
+            })
+            
+            const resJson = await actRes.json()
+            //console.log(actRes)
+            //console.log(resJson)
+            ///console.log(resJson.username)
 
-        document.getElementById("actUser").innerHTML = resJson.username
-        document.getElementById("actEmail").innerHTML = resJson.email
-        document.getElementById("actPass").innerHTML = resJson.password
+            document.getElementById("actUser").innerHTML = resJson.username
+            document.getElementById("actEmail").innerHTML = resJson.email
+            document.getElementById("actPass").innerHTML = resJson.password
         } 
         getUserInfo()
 
         //LOGOUT
-        const logoutBtn = document.getElementById("logoutBtn")
+        const logoutBtn = document.getElementById("logOutBtn")
         logoutBtn.addEventListener('click', processLogout)
         async function processLogout(e) {
             e.preventDefault()
@@ -92,7 +92,7 @@
                     accept: 'application/json',
                 },
             })
-            console.log(res)
+            //console.log(res)
             if (res.redirected==true) {
               window.location.href = res.url
             } else {
@@ -103,32 +103,36 @@
     </script>
     <div id="accountEdit" class="hidden">
         <form>
-            <input type="text" placeholder="New email" name="newEmail" id="changeEmail">
-            <input type="text" placeholder="New password" name="newPassword" id="changePassword">
-            <button type="submit" id="submitChangeBtn" class="submitButton"></button>
+            <input type="text" placeholder="New email" name="newEmail" id="changeEmail" required>
+            <input type="text" placeholder="New password" name="newPassword" id="changePassword" required>
+            <button type="submit" id="submitChangeBtn" class="submitButton">Submit Changes</button>
         </form>
     </div>
     <script>
         const submitChangeBtn = document.getElementById("submitChangeBtn")
-        submitChangeBtn.addEventListener("submit", submitChange)
+        submitChangeBtn.addEventListener("click", submitChange)
         const baseURL = "http://localhost:5555/app/users/"
         
 
         async function submitChange(e) {
+            console.log("submitting change")
             e.preventDefault()
             let emailInput = document.getElementById("changeEmail").value
             let passwordInput = document.getElementById("changePassword").value
+            console.log(emailInput)
 
             const res = await fetch(baseURL + "update", {
-                method: 'PATCH',
+                method: 'POST',
+                headers: {"Content-Type": 'application/json'},
                 body: JSON.stringify({
-                    newEmail: emailInput,
-                    newPassword: passwordInput
+                    email: emailInput,
+                    password: passwordInput
                 })
             })
             console.log(res)
             const data = await res.json()
-            if (res.redirected == true) {
+            console.log(data)
+            if (data.status == "success") {
                 console.log('success')
                 getUserInfo()
                 div('account') 

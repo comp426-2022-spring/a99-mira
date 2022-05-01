@@ -125,10 +125,10 @@ app.get("/", function (req, res) {
 
 app.get('/mhr/', (req, res) => {
     if (!req.session.loggedin) {
-        res.send('Please login to view this page!');
+        res.send('Please login to view this page! at /mhr/signup');
 	} else {
     res.sendFile(path.join(__dirname,'/public/homepage.html'))
-    }
+    }   
 })
 
 app.get('/mhr/login', (req, res) => {
@@ -143,6 +143,13 @@ app.get('/mhr/signup', (req, res) => {
 app.get('/app/users/info', (req, res) => {
     let username = req.session.username
     const userInfoQuery = db.prepare('SELECT * FROM users where username=?').get(username, password, email)
+    //console.log("entered endpoint")
+    //console.log(username)
+    const userInfoQuery = db.prepare('SELECT * FROM users WHERE username=?').get(username)
+    //console.log(userInfoQuery)
+    //console.log(userInfoQuery.password)
+    //console.log('bruh')
+    res.send({"username":userInfoQuery.username,"password":userInfoQuery.password,"email":userInfoQuery.email})
 
 })
 
@@ -203,9 +210,9 @@ app.post('/app/auth/login', (req, res, next) => {
     // this code takes a username and password variable and checks if eiher are in the db already
     // if they are it returns the message username or password already exist
     // if they arent they are added to the db check to see if user already exists
-        const userCheck = checkCreds(db, username)
+        const userInfoQuery = db.prepare('SELECT * FROM users WHERE username=?').get(username)
         //If account doesn't exist
-        if(userCheck.lastInsertRowid <450){
+        if(userInfoQuery.email == undefined){
             res.send({"checkUser":"false"})
 
         } else { //If it does exist
@@ -226,23 +233,35 @@ app.get('/app/users/logout', (req, res) => {
     return res.redirect('/mhr/signup')
 })
 //PATCH METHODS
-app.patch('/app/users/update', (req, res) => {
+app.post('/app/users/update', (req, res) => {
     //For a certain username, process changes to password and email
     //Get username, password, and email values from front-end request
+    console.log("hello from update")
     let username = req.session.username;
     let password = req.body.password;
     let email = req.body.email;
      if(username === "" || password === "" || email === ""){
+    console.log(username)
+    console.log(password)
+    console.log(email)
+    if(username == "" || password == "" || email == ""){
         next(APIError.Invalidrequest('Blank fields'));
         return;
     }
+    console.log('made it through 1st if')
     if(username && password && email){
-        flag = updateUser(username, password, email)
+        console.log("in if before updating")
+        updateUser(db,username, password, email)
+        console.log('updated')
         //Search for the record in database with username, then change password/email to new values
-        if (flag) { //This means updateUser was successful
-            return res.redirect('/mhr/')
-        }
-        res.send({"response":"Update failed :("})
+        // if (flag) { //This means updateUser was successful
+        //     console.log("return")
+        //     res.send({"status":"success"})
+        // } else {
+        //     res.send({"status":"failure"})
+        // }
+        res.send({"status":"success"})
+        
     }
     //Return a JSON containing {"status" : "success" } to frontend
 })
@@ -264,6 +283,9 @@ app.delete('/app/users/delete', (req, res) => {
     }
 
 
+    deleteUser(db, username)
+    console.log("he gone")
+    return res.redirect("/mhr/signup")
 
     //deleteUser(db,"bgatts")
 
