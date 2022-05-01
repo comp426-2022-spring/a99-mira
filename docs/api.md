@@ -80,7 +80,7 @@ signup.html
 #### Request cURL
 ```
 node server.js --debug=true
-curl -v http://localhost:5555/mhr
+curl -v http://localhost:5555/app/log/access
 ```
 #### Response body
 ```
@@ -100,10 +100,23 @@ Better-Sqlite-3 database log containing all user interactions (get/post/patch/de
 ```
 ## /app/log/error/ (GET)
 #### Request cURL
-
+```
+curl -v http://localhost:5555/app/error
+```
 #### Response body
-
+```
+"Something went wrong - Internal Server Error"
+```
 #### Response headers
-
-
+```
+< HTTP/1.1 500 Internal Server Error
+< X-Powered-By: Express
+< Content-Type: application/json; charset=utf-8
+< Content-Length: 22
+< ETag: W/"16-O0Y2/R2so3Tj/t6yzIUQ0oxk9Dc"
+< Set-Cookie: connect.sid=s%3Ac8dUKNL8uVyR08cxyE4d4RKuAKp4z8Ur.A5igluS4LgSK%2FLIq%2BnedAyDqCL2CbshFuORBI53RmHs; Path=/; HttpOnly
+< Date: Sun, 01 May 2022 22:54:17 GMT
+< Connection: keep-alive
+< Keep-Alive: timeout=5
+```
 
