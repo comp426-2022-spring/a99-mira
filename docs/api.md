@@ -169,17 +169,14 @@ curl -v http://localhost:5555/app/error
 ```After receiving the username and password request, this endpoint checks the credentials against the database of users, and if the user if valid it authenticates them and responds with a redirection to the main page.```
 
 ## /app/users/update (POST)
-#### Request cURL
-
+#### Request params
+```This endpoint is configured to receive a newPassword and a newEmail variable passed from a front-end form so that users can change their account information. It also takes a request containing the session property from express-session.```
 #### Response body
-
-#### Response headers
-
+```The response for this endpoint is a message containing a status of either success or failure. It responds with this after attempting to perform the update of information in the database```
 # /app API Delete Endpoints
 
-## /app/users/info (DELETE)
-#### Request cURL
-
+## /app/users/delete (DELETE)
+#### Request params
+```This endpoint is set up to recieve a request containing the session property from express-session.```
 #### Response body
-
-#### Response headers
+```This endpoint responds with a redirection to the signup page upon successful deletion of the user's account.```
