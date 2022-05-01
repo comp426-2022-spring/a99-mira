@@ -171,7 +171,7 @@ app.post('/app/users/signUpRequest', (req, res, next) => {
     let doesExist
 
     console.log("something_happening")
- 
+
     const userCheck = checkCreds(username,password)
     if(userCheck.lastInsertRowid<450){
         res.message = 'Username or Password Incorrect'
@@ -232,7 +232,7 @@ app.patch('/app/users/update', (req, res) => {
     let username = req.session.username;
     let password = req.body.password;
     let email = req.body.email;
-    if(username === "" || password === "" || email === ""){
+     if(username === "" || password === "" || email === ""){
         next(APIError.Invalidrequest('Blank fields'));
         return;
     }
