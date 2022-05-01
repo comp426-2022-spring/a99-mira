@@ -171,7 +171,7 @@ app.post('/app/users/signUpRequest', (req, res, next) => {
     let doesExist
 
     console.log("something_happening")
-
+ 
     const userCheck = checkCreds(username,password)
     if(userCheck.lastInsertRowid<450){
         res.message = 'Username or Password Incorrect'
