@@ -7,10 +7,14 @@ import Database from 'better-sqlite3';
 import path from 'path';
 import session from 'express-session';
 import {addUser, checkCreds, deleteUser, makedbs} from './modules/database.js';       //create databases
+const APIError = require('./error/APIError');
+const apiErrorHandler = require('./error/api-error-handler')
 
 //SERVER SETUP
 const app = express();
 const db = new Database('site.db')                  //set up database
+const APIError = require('./error/APIError');
+const apiErrorHandler = require('./error/api-error-handler');
 //create log database, because this is related to server going to leave it in here
 //only need to run once when changing the architecture of db, otherwise can stay commented out
 //const statments = 'CREATE TABLE accesslog (remoteadder, remoteuser, time, method, url, protocol, httpversion, status, refer, useragent)'
@@ -144,11 +148,15 @@ app.get('/app/users/info', (req, res) => {
 })
 
 //POST ENDPOINTS
-app.post('/app/users/signUpRequest', (req, res) => {
+app.post('/app/users/signUpRequest', (req, res, next) => {
     //Get the new user's info from the front end request
     let username = req.body.username
     let password = req.body.password
     let email = req.body.email
+    if(username === "" || password === "" || email === ""){
+        next(APIError.Invalidrequest('Black fields'));
+        return;
+    }
     console.log('entered endpoint')
     //Database:
     //this code checks the database for a username and password combo
@@ -161,7 +169,6 @@ app.post('/app/users/signUpRequest', (req, res) => {
     console.log('added user')
     res.redirect('/mhr/')
 
-<<<<<<< HEAD
     let doesExist
 
     console.log("something_happening")
@@ -183,14 +190,16 @@ app.post('/app/users/signUpRequest', (req, res) => {
     if (doesExist == false){
         return res.redirect('/mhr/signup')
     }
-=======
->>>>>>> 43998a9a6e4c5bb2500c751a186a95d35f92d6fe
 })
-app.post('/app/auth/login', (req, res) => {
+app.post('/app/auth/login', (req, res, next) => {
     let username = req.body.username;
     let password = req.body.password;
     console.log(username)
     console.log(password)
+    if(username === "" || password === ""){
+        next(APIError.Invalidrequest('wrong username or password'));
+        return;
+    }
     if (username && password) {
     // this code takes a username and password variable and checks if eiher are in the db already
     // if they are it returns the message username or password already exist
@@ -224,6 +233,10 @@ app.patch('/app/users/update', (req, res) => {
     let username = req.session.username;
     let password = req.body.password;
     let email = req.body.email;
+    if(username === "" || password === "" || email === ""){
+        next(APIError.Invalidrequest('Blank fields'));
+        return;
+    }
     if(username && password && email){
         flag = updateUser(username, password, email)
         //Search for the record in database with username, then change password/email to new values
@@ -259,5 +272,8 @@ app.delete('/app/users/delete', (req, res) => {
 
     //If the delete is successful, use res.redirect to send the user back to the signup page
 })
+
+app.use(apiErrorHandler);
+
 
     
