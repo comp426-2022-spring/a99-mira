@@ -8,3 +8,10 @@ function div(name) { // set active div on click
 
     document.getElementById(name).setAttribute("class", "active") // show clicked div
 }
+
+function showAccountEdit() {
+    accountPage = document.getElementById("account")
+    accountPage.setAttribute("class", "hidden")
+    accountEdit = document.getElementById("accountEdit")
+    accountEdit.setAttribute("class","active")
+}

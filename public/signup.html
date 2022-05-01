@@ -10,7 +10,7 @@
         <h1 class="userHeader">Sign Up</h1>
         <form action="/mhr/signup/">
             <input type="text" placeholder="Username" name="username" id="usernameSignup" required>
-            <input type="text" placeholder="Email" name="email" id="email" required>
+            <input type="text" placeholder="Email" name="email" id="emailSignup" required>
             <input type="password" placeholder="Password" name="password" id="passwordSignup" required>
             <button id="submitBtn" type="submit" class="submitButton">Register</button>
         </form>
@@ -22,27 +22,34 @@
         const baseURL = 'http://localhost:5555/users/'
 
         submitBtn.addEventListener('submit', submitSignUp)
-        
+
         //Function to check and see whether a username and password are already in the database
         async function submitSignUp(e) {
             e.preventDefault()
-            if (usernameInput.value == '') { return }
+            const usernameInput = document.getElementById("usernameSignup")
+            const passwordInput = document.getElementById("passwordSignup")
+            const emailInput = document.getElementById("emailSignup")
             
             const res = await fetch(baseURL + 'signUpRequest', {
                 method: 'POST',
                 headers: {"Content-Type": "application/json"},
                 body: JSON.stringify({
                     username: usernameInput.value,
-                    password: passwordInput.value
+                    password: passwordInput.value,
+                    email: emailInput.value
                 })
             })
             console.log(res)
+            if (res.redirected == true) {
+                alert("Successfully added to database!")
+                window.location.href = res.url
+            }
             const data = await res.json()
             //If the user already exists in the database
             if (data.checkUser == "true") {
                 alert("You have already created an account, please go to the login page")
             }
-            //If the user is new, then we need method to add them to the database
+            
             
         }
 

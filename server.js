@@ -6,7 +6,7 @@ import morgan from 'morgan';
 import Database from 'better-sqlite3';
 import path from 'path';
 import session from 'express-session';
-import {addUser, makedbs} from './modules/database.js';       //create databases
+import {addUser, makedbs, updateUser} from './modules/database.js';       //create databases
 
 //SERVER SETUP
 const app = express();
@@ -119,14 +119,9 @@ app.get("/", function (req, res) {
 });
 
 app.get('/mhr/', (req, res) => {
-    // if (req.session.loggedin) {
-	// 	// Output username
-	// 	//res.send({"rjson":'Welcome back, ' + req.session.username + '!'});
-	// } else {
-	// 	// Not logged in
-	// 	res.send('Please login to view this page!');
-    //     res.end()
-	// }
+    if (!req.session.loggedin) {
+        res.send('Please login to view this page!');
+	}
     res.sendFile(path.join(__dirname,'/public/homepage.html'))
 })
 
@@ -136,6 +131,12 @@ app.get('/mhr/login', (req, res) => {
 
 app.get('/mhr/signup', (req, res) => {
     res.sendFile(path.join(__dirname,'/public/signup.html'))
+})
+
+app.get('/app/users/info', (req, res) => {
+    let username = req.session.username
+    const userInfoQuery = db.prepare('SELECT * FROM users where username=?').get(username, password, email)
+
 })
 
 //POST ENDPOINTS
@@ -152,10 +153,9 @@ app.post('/app/users/signUpRequest', (req, res) => {
 
     let doesExist
 
-    const userCheck = db.prepare('SELECT * FROM users where username=? AND password=?').get(username, password)
+    const userCheck = db.prepare('SELECT * FROM users where username=? AND password=?').get(username, password,email)
     if(userCheck == undefined){
-        res.message = 'Username or Password Incorrect'
-        doesExist = false
+        
     }
     else{
         doesExist = true
@@ -194,24 +194,25 @@ app.post('/app/auth/login', (req, res) => {
 
 app.post('/app/users/logout', (req, res) => {
     //Use session to log ppl out
+    req.session.loggedin = false;
+    console.log("successful log out")
+    return res.redirect('/mhr/signup')
 })
 //PATCH METHODS
 app.patch('/app/users/update', (req, res) => {
-    let username = req.body.username;
+    //For a certain username, process changes to password and email
+    //Get username, password, and email values from front-end request
+    let username = req.session.username;
     let password = req.body.password;
     let email = req.body.email;
     if(username && password && email){
-        db.prepare("get use database using username =?").get(username)
-        if(username != undefined){
-        db.run('Update password = ? and email = ?', password, email);
-        
-    }}
-    //For a certain username, process changes to password and email
-    
-    //Get username, password, and email values from front-end request
-
-    //Search for the record in database with username, then change password/email to new values
-    res.status(200).json({"status" : success});
+        flag = updateUser(username, password, email)
+        //Search for the record in database with username, then change password/email to new values
+        if (flag) { //This means updateUser was successful
+            return res.redirect('/mhr/')
+        }
+        res.send({"response":"Update failed :("})
+    }
     //Return a JSON containing {"status" : "success" } to frontend
 })
 
