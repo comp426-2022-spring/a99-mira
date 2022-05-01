@@ -219,7 +219,7 @@ app.post('/app/auth/login', (req, res, next) => {
     }
 })
 
-app.post('/app/users/logout', (req, res) => {
+app.get('/app/users/logout', (req, res) => {
     //Use session to log ppl out
     req.session.loggedin = false;
     console.log("successful log out")

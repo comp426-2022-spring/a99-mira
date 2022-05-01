@@ -40,17 +40,19 @@
         <p id="actPass">Password</p>
         <button id="editProfileBtn", onclick="div('accountEdit')">Edit Profile</button>
         <button id="logoutBtn">Log Out</button>
+        <button id="deleteActBtn">Delete Account :(</button>
     </div>
     <script>
         const logoutBtn = document.getElementById("logoutBtn")
         logoutBtn.addEventListener('click', processLogout)
-        const baseURL2 = 'https://localhost:5555/app/users'
 
         async function processLogout(e) {
             e.preventDefault()
-            const res = await fetch(baseURL2 + '/logout', {
-                method: 'POST',
-                headers: {'Content-Type':'application/json'}
+            const res = await fetch('https://localhost:5555/app/users/logout', {
+                method: 'GET',
+                headers: {
+                    accept: 'application/json',
+                },
             })
             console.log(res)
             if (res.redirected==true) {
